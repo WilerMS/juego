@@ -1,5 +1,7 @@
 # Nuestro juego 🎮
 
+**Jugar:** https://juego-production-8230.up.railway.app
+
 Un juego 3D que se juega en el navegador y que vamos creando **pidiéndoselo a la IA**.
 
 Ahora mismo eres una cápsula rosa en un bosque y tienes que recoger 10 estrellas. A partir de aquí, el juego será lo que nosotros queramos.
