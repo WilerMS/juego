@@ -5,6 +5,7 @@ import { CONFIG } from "../config";
 import { posicionJugador } from "./posicion";
 import { partida } from "./partida";
 import { cuantoHaCrecido } from "./horizonte";
+import { Bache } from "./Bache";
 import { Modelo, Personaje, RUTA_MOTOCONCHO, rutaCoche, rutaPersona } from "./modelos";
 
 const o = CONFIG.obstaculos;
@@ -19,7 +20,7 @@ const TAMANOS: Record<Tipo, { largo: number; ancho: number; alto: number }> = {
   camion: { largo: 4.4, ancho: 1, alto: 3 },
   coche: { largo: 3.5, ancho: 0.95, alto: 1.5 },
   moto: { largo: 2, ancho: 0.4, alto: 1.8 },
-  bache: { largo: 1.1, ancho: 0.6, alto: 0.1 },
+  bache: { largo: 1.3, ancho: 0.8, alto: 0.1 },
   peaton: { largo: 0.5, ancho: 0.3, alto: 1.8 },
 };
 
@@ -77,20 +78,6 @@ function Moto({ motorista }: { motorista: string }) {
   );
 }
 
-function Bache() {
-  return (
-    <group position-y={0.03}>
-      <mesh rotation-x={-Math.PI / 2} scale={[1.2, 0.8, 1]}>
-        <circleGeometry args={[o.tamanoBache, 12]} />
-        <meshStandardMaterial color={o.colorBache} />
-      </mesh>
-      <mesh rotation-x={-Math.PI / 2} position-y={0.005} scale={[1.2, 0.8, 1]}>
-        <ringGeometry args={[o.tamanoBache, o.tamanoBache + 0.15, 12]} />
-        <meshStandardMaterial color="#6b6b70" />
-      </mesh>
-    </group>
-  );
-}
 
 export function Obstaculos({ onChocar }: { onChocar: () => void }) {
   const grupo = useRef<Group>(null);

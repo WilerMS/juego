@@ -5,17 +5,26 @@ import { CONFIG } from "../config";
 import { posicionJugador } from "./posicion";
 import { Decorado } from "./Decorado";
 import { cuantoHaCrecido } from "./horizonte";
+import { useAsfalto } from "./texturas";
 
 const { anchoCarril, largoTrozo, trozosVisibles } = CONFIG.carretera;
 const anchoCarretera = anchoCarril * 3;
 const rayasPorTrozo = 5;
 
 function Trozo() {
+  const asfalto = useAsfalto(anchoCarretera, largoTrozo);
+  const relieve = CONFIG.carretera.relieveAsfalto;
   return (
     <group>
       <mesh rotation-x={-Math.PI / 2} position-y={0.01} receiveShadow>
         <planeGeometry args={[anchoCarretera, largoTrozo]} />
-        <meshStandardMaterial color={CONFIG.carretera.colorAsfalto} />
+        <meshStandardMaterial
+          color={CONFIG.carretera.tonoAsfalto}
+          map={asfalto.map}
+          normalMap={asfalto.normalMap}
+          normalScale={[relieve, relieve]}
+          roughness={0.95}
+        />
       </mesh>
       {[-0.5, 0.5].map((lado) =>
         Array.from({ length: rayasPorTrozo }, (_, i) => (
@@ -25,7 +34,7 @@ function Trozo() {
             position={[lado * anchoCarril, 0.02, -largoTrozo / 2 + (i + 0.5) * (largoTrozo / rayasPorTrozo)]}
           >
             <planeGeometry args={[0.15, 1.8]} />
-            <meshStandardMaterial color={CONFIG.carretera.colorLineas} />
+            <meshStandardMaterial color={CONFIG.carretera.colorLineas} roughness={0.8} />
           </mesh>
         )),
       )}
