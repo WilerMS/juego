@@ -97,7 +97,7 @@ body,
 
 .intro {
   position: fixed;
-  top: 64px;
+  bottom: 48px;
   left: 0;
   right: 0;
   flex-direction: column;

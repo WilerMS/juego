@@ -20,7 +20,8 @@ export function Velocimetro() {
         aviso.current.classList.add("visible");
       }
       if (metros.current) metros.current.textContent = `${Math.floor(-posicionJugador.z)} m`;
-      if (kmh.current) kmh.current.textContent = `${Math.round(partida.velocidad * 3.6)} km/h`;
+      const velocidad = partida.enIntro ? 0 : partida.velocidad;
+      if (kmh.current) kmh.current.textContent = `${Math.round(velocidad * 3.6)} km/h`;
       pedido = requestAnimationFrame(actualizar);
     };
     actualizar();

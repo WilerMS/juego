@@ -16,33 +16,18 @@ export const CONFIG = {
     velocidadGiroCamara: 0.25,
   },
   intro: {
-    duracion: 3.5,
-    distanciaPerseguidor: 13,
-    velocidadPerseguidorEnIntro: 3,
-    velocidadPerseguidorDespues: 11,
+    duracion: 6,
+    esperando: 1.6,
+    andando: 2.2,
+    subiendo: 0.4,
+    carrilInicial: 1,
     segundosConBocadillo: 2.5,
-    perseguidorDesapareceA: 45,
   },
-  perseguidores: {
-    frecuencia: { persona: 1, perro: 1, gato: 1 },
-    persona: {
-      modelo: "persona",
-      alto: 1.8,
-      animacion: "CharacterArmature|Run",
-      frases: ["¡Ven acá!", "¡Párate ahí!", "¡Devuélveme mi mango! 🥭", "¡Esa moto es mía!"],
-    },
-    perro: {
-      modelo: "perro",
-      alto: 1.2,
-      animacion: "AnimalArmature|Gallop",
-      frases: ["¡GUAU GUAU! 🐕", "¡GRRR… GUAU!", "¡WOOF!"],
-    },
-    gato: {
-      modelo: "gato",
-      alto: 0.9,
-      animacion: "AnimalArmature|AnimalArmature|AnimalArmature|Run",
-      frases: ["¡MIAUUU! 🐈", "¡FFFSSS! 😾", "¡MIAU MIAU!"],
-    },
+  pasajeros: {
+    modelos: ["pasajera", "pasajera-tirantes", "pasajero"],
+    escala: 0.37,
+    llamadas: ["¡Oye, motoconcho! 🙋", "¡Motor! ¡Motor!", "¡Pssst! ¡Motoconcho!", "¡Para, para! 🙋"],
+    destinos: ["el Malecón", "la Zona Colonial", "el colmado", "la playa", "el aeropuerto", "casa de mi abuela", "el play de pelota"],
   },
   protagonista: {
     modelo: "protagonista",

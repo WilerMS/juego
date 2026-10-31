@@ -20,7 +20,7 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 - Calle con textura de asfalto de verdad y baches realistas (grietas, escombros y charcos)
 - Modelos 3D de verdad: coches y personas de Kenney (con animaciones de correr, andar, conducir y caerse) y moto de Poly Pizza
 - Menú inicial con botón "Empezar" y la cámara girando alrededor de la moto
-- Intro de persecución: al empezar te persigue una persona, un perro o un gato (al azar) con un bocadillo de cómic, y luego se queda atrás
+- Intro de recogida: un pasajero llama al motoconcho desde la acera, camina hasta la moto, se sube detrás y dice adónde quiere ir
 - Dificultad: la velocidad sube según los metros recorridos (+6 km/h cada 100 m, hasta 216 km/h) con aviso de nivel cada 500 m; los obstáculos salen más juntos cuanto más rápido vas, la cámara se abre y tiembla
 - Velocímetro (metros y km/h) y récord guardado en el móvil
 - Protagonista nueva con proporciones normales (Quaternius), sentada en la moto
@@ -34,6 +34,10 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 
 ## Pendientes 💡
 
+- **Misiones de motoconcho**: llevar al pasajero a su destino antes de que se acabe el tiempo ⏱️
+- Cobrar el viaje y ganar pesos 💵 según lo rápido que llegues
+- Que el pasajero se queje si chocas o vas lento ("¡Ay, mi madre!")
+
 - Volver a poner estrellas (o monedas) en los carriles para recogerlas
 - Tiendas con toldo (colmado, banca de lotería, salón de belleza) usando los modelos comerciales de Kenney
 - Más República Dominicana: un colmado con su letrero, guaguas, música de merengue/bachata
@@ -46,6 +50,8 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 - ¿Cómo se llama la protagonista? (es "Woman Casual" de Quaternius en su moto roja)
 
 ## Descartadas 🗑️
+
+- Intro de persecución (una persona, un perro o un gato te perseguían): la cambiamos por la recogida del pasajero cuando el juego pasó a llamarse Motoconcho
 
 - Bosque con árboles para explorar libremente (lo cambiamos por la carretera)
 - Estrellas repartidas por un mapa abierto

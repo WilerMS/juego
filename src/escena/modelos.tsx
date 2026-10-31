@@ -99,7 +99,8 @@ export function Personaje({ ruta, animacion, escala = m.escalaPersonas, alto }: 
   const actual = useRef<AnimationAction | null>(null);
 
   useFrame(() => {
-    const nombre = typeof animacion === "function" ? animacion() : animacion;
+    const pedida = typeof animacion === "function" ? animacion() : animacion;
+    const nombre = actions[pedida] ? pedida : (Object.keys(actions).find((clave) => clave.endsWith(pedida)) ?? pedida);
     const accion = actions[nombre];
     if (!accion || accion === actual.current) return;
     if (!seRepite(nombre)) {

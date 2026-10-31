@@ -4,7 +4,8 @@ import { Vector3, type Group, type PerspectiveCamera } from "three";
 import { CONFIG } from "../config";
 import { entrada } from "../controles";
 import { posicionJugador } from "./posicion";
-import { partida, progresoVelocidad } from "./partida";
+import { fasesIntro, partida, progresoVelocidad } from "./partida";
+import { Pasajero } from "./Pasajero";
 import { Modelo, Personaje, RUTA_MOTO_JUGADORA, RUTA_PROTAGONISTA } from "./modelos";
 
 const p = CONFIG.protagonista;
@@ -35,20 +36,28 @@ export function Jugador() {
 
     if (partida.enIntro) {
       if (!partida.enMenu) partida.tiempoIntro += dt;
-      cuerpo.position.y = partida.enMenu ? 0 : Math.abs(Math.sin(partida.tiempoIntro * 45)) * 0.015;
+      const fase = fasesIntro();
+      const arrancando = !partida.enMenu && fase.subido;
+      cuerpo.position.y = arrancando ? Math.abs(Math.sin(partida.tiempoIntro * 45)) * 0.015 : 0;
       posicionJugador.copy(cuerpo.position);
-      const giro = partida.enMenu
-        ? 0.3 + Math.sin(state.clock.elapsedTime * CONFIG.menu.velocidadGiroCamara) * 0.7
-        : 0.6 - partida.tiempoIntro * 0.12;
-      destinoCamara.set(Math.sin(giro) * 4, 2.2, cuerpo.position.z - Math.cos(giro) * 6);
+      const x = cuerpo.position.x;
+      const z = cuerpo.position.z;
+      if (partida.enMenu) {
+        const giro = 0.3 + Math.sin(state.clock.elapsedTime * CONFIG.menu.velocidadGiroCamara) * 0.7;
+        destinoCamara.set(x - 1 + Math.sin(giro) * 4, 2.2, z - Math.cos(giro) * 6);
+        objetivoMirada.set(x, 1.1, z);
+      } else {
+        const avance = Math.min(1, partida.tiempoIntro / CONFIG.intro.duracion);
+        destinoCamara.set(x - 3.6 + avance * 1.2, 2.1 + avance * 0.6, z - 5 + avance * 2);
+        objetivoMirada.set(x + 1.2 - avance * 1.2, 1.1, z + 0.4);
+      }
       state.camera.position.lerp(destinoCamara, 1 - Math.exp(-3 * dt));
-      objetivoMirada.set(0, 1.1, cuerpo.position.z + 4);
       miradaSuave.lerp(objetivoMirada, 1 - Math.exp(-4 * dt));
       state.camera.lookAt(miradaSuave);
       if (partida.tiempoIntro >= CONFIG.intro.duracion) {
         partida.enIntro = false;
         cuerpo.position.y = 0;
-        entrada.carril = 0;
+        entrada.carril = CONFIG.intro.carrilInicial;
         entrada.saltar = false;
         segundosDesdeSalida.current = 0;
       }
@@ -105,11 +114,12 @@ export function Jugador() {
   });
 
   return (
-    <group ref={ref} rotation-y={Math.PI}>
+    <group ref={ref} rotation-y={Math.PI} position-x={CONFIG.intro.carrilInicial * CONFIG.carretera.anchoCarril}>
       <Modelo ruta={RUTA_MOTO_JUGADORA} largo={CONFIG.modelos.largoMoto} />
       <group position={[0, p.alturaAsiento, -p.haciaAtras]}>
         <Personaje ruta={RUTA_PROTAGONISTA} animacion={animacionJugador} escala={p.escala} />
       </group>
+      <Pasajero />
     </group>
   );
 }
