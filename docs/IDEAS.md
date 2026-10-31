@@ -5,16 +5,22 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 ## Hechas ✅
 
 - Personaje que se mueve y salta
-- Bosque con árboles
-- Estrellas para recoger y pantalla de victoria
 - Controles táctiles para móvil
+- El juego es una carrera sin fin por una carretera de 3 carriles (estilo "endless runner")
+- Cambiar de carril con swipe (móvil) o flechas (ordenador), y saltar con swipe arriba o espacio
+- Decorado: edificios de colores y gente en las aceras
 
 ## Pendientes 💡
 
-- ¿De qué va nuestro juego? (¡decidirlo juntos!)
-- ¿Cómo se llama?
+- Obstáculos en los carriles que hay que esquivar o saltar
+- Volver a poner estrellas (o monedas) en los carriles para recogerlas
+- Contador de metros recorridos
+- Que la velocidad suba poco a poco
+- Agacharse / deslizarse con swipe abajo
+- ¿Cómo se llama el juego?
 - ¿Quién es el personaje protagonista?
 
 ## Descartadas 🗑️
 
--
+- Bosque con árboles para explorar libremente (lo cambiamos por la carretera)
+- Estrellas repartidas por un mapa abierto

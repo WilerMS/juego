@@ -3,6 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import type { Group } from "three";
 import { CONFIG } from "../config";
 import { posicionJugador } from "./posicion";
+import { Decorado } from "./Decorado";
 
 const { anchoCarril, largoTrozo, trozosVisibles } = CONFIG.carretera;
 const anchoCarretera = anchoCarril * 3;
@@ -33,6 +34,7 @@ function Trozo() {
           <meshStandardMaterial color="#d8d8d8" />
         </mesh>
       ))}
+      <Decorado />
     </group>
   );
 }
