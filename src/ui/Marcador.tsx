@@ -1,19 +1,8 @@
-type Props = { recogidas: number; total: number; onOtraVez: () => void };
-
-export function Marcador({ recogidas, total, onOtraVez }: Props) {
-  const ganado = recogidas >= total;
+export function Marcador() {
   return (
     <>
-      <div className="marcador">
-        ⭐ {recogidas} / {total}
-      </div>
-      <div className="ayuda">Flechas o WASD para moverte · Espacio para saltar</div>
-      {ganado && (
-        <div className="victoria">
-          <h1>¡Lo has conseguido!</h1>
-          <button onClick={onOtraVez}>Otra vez</button>
-        </div>
-      )}
+      <div className="ayuda ordenador">← → para cambiar de carril · Espacio para saltar</div>
+      <div className="ayuda movil">Desliza ⬅️ ➡️ para cambiar de carril · ⬆️ para saltar</div>
     </>
   );
 }

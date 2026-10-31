@@ -1,22 +1,26 @@
 export const CONFIG = {
   jugador: {
     color: "#ff6fb5",
-    velocidad: 6,
+    velocidadCarrera: 12,
+    rapidezCambioCarril: 12,
     salto: 8,
   },
-  mundo: {
-    tamano: 40,
-    gravedad: 22,
-    colorSuelo: "#7ccf6a",
-    arboles: 25,
+  carretera: {
+    anchoCarril: 2.5,
+    largoTrozo: 20,
+    trozosVisibles: 8,
+    colorAsfalto: "#4a4a52",
+    colorLineas: "#ffffff",
+    colorHierba: "#7ccf6a",
   },
-  estrellas: {
-    cantidad: 10,
-    color: "#ffd84a",
-    distanciaParaRecoger: 1.3,
+  mundo: {
+    gravedad: 22,
+  },
+  swipe: {
+    distanciaMinima: 40,
   },
   camara: {
-    altura: 7,
-    distancia: 11,
+    altura: 4,
+    distancia: 7,
   },
 };

@@ -1,58 +1,45 @@
-import { useRef, useState, type PointerEvent } from "react";
-import { entrada } from "../controles";
-
-const RADIO = 50;
+import { useEffect } from "react";
+import { CONFIG } from "../config";
+import { irDerecha, irIzquierda, saltar } from "../controles";
 
 export function ControlesTactiles() {
-  const centro = useRef({ x: 0, y: 0 });
-  const [palanca, setPalanca] = useState({ x: 0, y: 0 });
+  useEffect(() => {
+    let inicio: { x: number; y: number } | null = null;
 
-  const empezar = (e: PointerEvent<HTMLDivElement>) => {
-    const caja = e.currentTarget.getBoundingClientRect();
-    centro.current = { x: caja.left + caja.width / 2, y: caja.top + caja.height / 2 };
-    e.currentTarget.setPointerCapture(e.pointerId);
-    mover(e);
-  };
+    const tocar = (e: PointerEvent) => {
+      inicio = { x: e.clientX, y: e.clientY };
+    };
 
-  const mover = (e: PointerEvent<HTMLDivElement>) => {
-    if (!e.currentTarget.hasPointerCapture(e.pointerId)) return;
-    let dx = e.clientX - centro.current.x;
-    let dy = e.clientY - centro.current.y;
-    const largo = Math.hypot(dx, dy);
-    if (largo > RADIO) {
-      dx = (dx / largo) * RADIO;
-      dy = (dy / largo) * RADIO;
-    }
-    setPalanca({ x: dx, y: dy });
-    entrada.x = dx / RADIO;
-    entrada.z = dy / RADIO;
-  };
+    const deslizar = (e: PointerEvent) => {
+      if (!inicio) return;
+      const dx = e.clientX - inicio.x;
+      const dy = e.clientY - inicio.y;
+      const minimo = CONFIG.swipe.distanciaMinima;
+      if (Math.abs(dx) < minimo && Math.abs(dy) < minimo) return;
+      if (Math.abs(dx) > Math.abs(dy)) {
+        if (dx > 0) irDerecha();
+        else irIzquierda();
+      } else if (dy < 0) {
+        saltar();
+      }
+      inicio = null;
+    };
 
-  const soltar = () => {
-    setPalanca({ x: 0, y: 0 });
-    entrada.x = 0;
-    entrada.z = 0;
-  };
+    const soltar = () => {
+      inicio = null;
+    };
 
-  return (
-    <div className="tactil">
-      <div
-        className="joystick"
-        onPointerDown={empezar}
-        onPointerMove={mover}
-        onPointerUp={soltar}
-        onPointerCancel={soltar}
-      >
-        <div className="palanca" style={{ transform: `translate(${palanca.x}px, ${palanca.y}px)` }} />
-      </div>
-      <button
-        className="saltar"
-        onPointerDown={() => (entrada.saltar = true)}
-        onPointerUp={() => (entrada.saltar = false)}
-        onPointerCancel={() => (entrada.saltar = false)}
-      >
-        Saltar
-      </button>
-    </div>
-  );
+    window.addEventListener("pointerdown", tocar);
+    window.addEventListener("pointermove", deslizar);
+    window.addEventListener("pointerup", soltar);
+    window.addEventListener("pointercancel", soltar);
+    return () => {
+      window.removeEventListener("pointerdown", tocar);
+      window.removeEventListener("pointermove", deslizar);
+      window.removeEventListener("pointerup", soltar);
+      window.removeEventListener("pointercancel", soltar);
+    };
+  }, []);
+
+  return null;
 }

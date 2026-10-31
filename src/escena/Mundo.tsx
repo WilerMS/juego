@@ -1,32 +1,54 @@
-import { Canvas } from "@react-three/fiber";
+import { useEffect, useRef } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Sky } from "@react-three/drei";
+import type { DirectionalLight } from "three";
 import { CONFIG } from "../config";
 import { Jugador } from "./Jugador";
-import { Estrellas } from "./Estrellas";
-import { Arboles } from "./Arboles";
+import { Carretera } from "./Carretera";
+import { posicionJugador } from "./posicion";
 
-export function Mundo({ onRecoger }: { onRecoger: () => void }) {
+function Sol() {
+  const luz = useRef<DirectionalLight>(null);
+  const escena = useThree((s) => s.scene);
+
+  useEffect(() => {
+    const objetivo = luz.current?.target;
+    if (!objetivo) return;
+    escena.add(objetivo);
+    return () => {
+      escena.remove(objetivo);
+    };
+  }, [escena]);
+
+  useFrame(() => {
+    if (!luz.current) return;
+    luz.current.position.set(15, 25, posicionJugador.z + 10);
+    luz.current.target.position.set(0, 0, posicionJugador.z - 10);
+  });
+
   return (
-    <Canvas shadows camera={{ fov: 55, position: [0, CONFIG.camara.altura, CONFIG.camara.distancia] }}>
+    <directionalLight
+      ref={luz}
+      intensity={1.8}
+      castShadow
+      shadow-mapSize={[2048, 2048]}
+      shadow-camera-left={-30}
+      shadow-camera-right={30}
+      shadow-camera-top={30}
+      shadow-camera-bottom={-30}
+    />
+  );
+}
+
+export function Mundo() {
+  const lejos = CONFIG.carretera.largoTrozo * (CONFIG.carretera.trozosVisibles - 2);
+  return (
+    <Canvas shadows camera={{ fov: 60, position: [0, CONFIG.camara.altura, CONFIG.camara.distancia] }}>
       <Sky sunPosition={[50, 30, 20]} />
-      <fog attach="fog" args={["#cfe9ff", 30, 70]} />
+      <fog attach="fog" args={["#cfe9ff", lejos * 0.5, lejos]} />
       <ambientLight intensity={0.6} />
-      <directionalLight
-        position={[15, 25, 10]}
-        intensity={1.8}
-        castShadow
-        shadow-mapSize={[2048, 2048]}
-        shadow-camera-left={-30}
-        shadow-camera-right={30}
-        shadow-camera-top={30}
-        shadow-camera-bottom={-30}
-      />
-      <mesh rotation-x={-Math.PI / 2} receiveShadow>
-        <planeGeometry args={[CONFIG.mundo.tamano, CONFIG.mundo.tamano]} />
-        <meshStandardMaterial color={CONFIG.mundo.colorSuelo} />
-      </mesh>
-      <Arboles />
-      <Estrellas onRecoger={onRecoger} />
+      <Sol />
+      <Carretera />
       <Jugador />
     </Canvas>
   );

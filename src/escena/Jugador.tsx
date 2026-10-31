@@ -5,7 +5,6 @@ import { CONFIG } from "../config";
 import { entrada } from "../controles";
 import { posicionJugador } from "./posicion";
 
-const direccion = new Vector3();
 const destinoCamara = new Vector3();
 
 export function Jugador() {
@@ -17,17 +16,16 @@ export function Jugador() {
     if (!cuerpo) return;
     const dt = Math.min(delta, 0.05);
 
-    direccion.set(entrada.x, 0, entrada.z);
-    if (direccion.lengthSq() > 1) direccion.normalize();
-    cuerpo.position.addScaledVector(direccion, CONFIG.jugador.velocidad * dt);
-    if (direccion.lengthSq() > 0.01) cuerpo.rotation.y = Math.atan2(direccion.x, direccion.z);
+    cuerpo.position.z -= CONFIG.jugador.velocidadCarrera * dt;
 
-    const borde = CONFIG.mundo.tamano / 2 - 0.5;
-    cuerpo.position.x = Math.max(-borde, Math.min(borde, cuerpo.position.x));
-    cuerpo.position.z = Math.max(-borde, Math.min(borde, cuerpo.position.z));
+    const destinoX = entrada.carril * CONFIG.carretera.anchoCarril;
+    const antesX = cuerpo.position.x;
+    cuerpo.position.x += (destinoX - antesX) * (1 - Math.exp(-CONFIG.jugador.rapidezCambioCarril * dt));
+    cuerpo.rotation.z = -(cuerpo.position.x - antesX) / dt * 0.02;
 
     const enElSuelo = cuerpo.position.y <= 0;
     if (entrada.saltar && enElSuelo) velocidadY.current = CONFIG.jugador.salto;
+    entrada.saltar = false;
     velocidadY.current -= CONFIG.mundo.gravedad * dt;
     cuerpo.position.y += velocidadY.current * dt;
     if (cuerpo.position.y < 0) {
@@ -38,16 +36,17 @@ export function Jugador() {
     posicionJugador.copy(cuerpo.position);
 
     destinoCamara.set(
-      cuerpo.position.x,
-      cuerpo.position.y + CONFIG.camara.altura,
+      cuerpo.position.x * 0.5,
+      cuerpo.position.y * 0.5 + CONFIG.camara.altura,
       cuerpo.position.z + CONFIG.camara.distancia,
     );
-    state.camera.position.lerp(destinoCamara, 1 - Math.exp(-5 * dt));
-    state.camera.lookAt(cuerpo.position.x, cuerpo.position.y + 1, cuerpo.position.z);
+    state.camera.position.lerp(destinoCamara, 1 - Math.exp(-8 * dt));
+    state.camera.position.z = destinoCamara.z;
+    state.camera.lookAt(cuerpo.position.x * 0.5, 1, cuerpo.position.z - 6);
   });
 
   return (
-    <group ref={ref}>
+    <group ref={ref} rotation-y={Math.PI}>
       <mesh position-y={0.9} castShadow>
         <capsuleGeometry args={[0.45, 0.8, 8, 16]} />
         <meshStandardMaterial color={CONFIG.jugador.color} />

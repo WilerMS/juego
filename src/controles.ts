@@ -1,30 +1,25 @@
-export const entrada = { x: 0, z: 0, saltar: false };
+export const entrada = { carril: 0, saltar: false };
 
-const teclas = new Set<string>();
+export function irIzquierda() {
+  entrada.carril = Math.max(-1, entrada.carril - 1);
+}
 
-function actualizarDesdeTeclado() {
-  const izquierda = teclas.has("arrowleft") || teclas.has("a");
-  const derecha = teclas.has("arrowright") || teclas.has("d");
-  const arriba = teclas.has("arrowup") || teclas.has("w");
-  const abajo = teclas.has("arrowdown") || teclas.has("s");
-  entrada.x = (derecha ? 1 : 0) - (izquierda ? 1 : 0);
-  entrada.z = (abajo ? 1 : 0) - (arriba ? 1 : 0);
-  entrada.saltar = teclas.has(" ");
+export function irDerecha() {
+  entrada.carril = Math.min(1, entrada.carril + 1);
+}
+
+export function saltar() {
+  entrada.saltar = true;
 }
 
 export function escucharTeclado() {
   const pulsar = (e: KeyboardEvent) => {
-    teclas.add(e.key.toLowerCase());
-    actualizarDesdeTeclado();
-  };
-  const soltar = (e: KeyboardEvent) => {
-    teclas.delete(e.key.toLowerCase());
-    actualizarDesdeTeclado();
+    if (e.repeat) return;
+    const tecla = e.key.toLowerCase();
+    if (tecla === "arrowleft" || tecla === "a") irIzquierda();
+    if (tecla === "arrowright" || tecla === "d") irDerecha();
+    if (tecla === " " || tecla === "arrowup" || tecla === "w") saltar();
   };
   window.addEventListener("keydown", pulsar);
-  window.addEventListener("keyup", soltar);
-  return () => {
-    window.removeEventListener("keydown", pulsar);
-    window.removeEventListener("keyup", soltar);
-  };
+  return () => window.removeEventListener("keydown", pulsar);
 }
