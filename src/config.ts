@@ -19,7 +19,7 @@ export const CONFIG = {
   decorado: {
     anchoAcera: 3,
     colorAcera: "#bdbdbd",
-    casasPorTrozo: 2,
+    casasPorTrozo: 3,
     pisosMaximos: 2,
     alturaPiso: 3.5,
     coloresCasas: ["#ff5fa2", "#00c2c7", "#ffd23f", "#7bd84a", "#ff8c42", "#4d9de0", "#c77dff", "#ff6b6b"],
@@ -28,6 +28,16 @@ export const CONFIG = {
     palmerasPorTrozo: 1,
     probabilidadBandera: 0.2,
     personasPorTrozo: 2,
+    probabilidadPosteDeLuz: 0.35,
+    probabilidadFarola: 0.6,
+    probabilidadContenedor: 0.3,
+  },
+  casas: {
+    probabilidadDeBarrio: 0.75,
+    escala: 6,
+    modelos: "abcdefghijklmnopqrstu".split("").map((letra) => `casa-${letra}`),
+    coloresTejado: ["#b5523b", "#9aa3ab", "#2f6f9f", "#3f9a5a", "#e0dccf", "#c0392b"],
+    combinacionesDeColor: 16,
   },
   obstaculos: {
     primeroA: 40,

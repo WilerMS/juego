@@ -1,12 +1,16 @@
 import { useMemo } from "react";
 import { CONFIG } from "../config";
 import { Modelo, Personaje, rutaPalmera, rutaPersona } from "./modelos";
+import { CasaDeBarrio, COMBINACIONES } from "./CasaDeBarrio";
 
 const { anchoCarril, largoTrozo } = CONFIG.carretera;
 const d = CONFIG.decorado;
 const bordeCarretera = anchoCarril * 1.5 + 0.3;
 const centroAcera = bordeCarretera + d.anchoAcera / 2;
 const BLANCO = "#fbf7ef";
+const RUTA_POSTE = "/modelos/calle/electricity-pole.glb";
+const RUTA_FAROLA = "/modelos/calle/light-curved.glb";
+const RUTA_CONTENEDOR = "/modelos/calle/dumpster.glb";
 const HIERRO = "#2b2b2b";
 
 function alAzar<T>(lista: T[]): T {
@@ -28,6 +32,7 @@ type DatosCasa = {
   colorPuerta: string;
   techoDeZinc: boolean;
   conBandera: boolean;
+  deBarrio: { nombre: string; pared: string; tejado: string; x: number } | null;
 };
 
 function Ventana({ x, y, z, color }: { x: number; y: number; z: number; color: string }) {
@@ -105,7 +110,7 @@ function Bandera({ x, y, z }: { x: number; y: number; z: number }) {
   );
 }
 
-function Casa({ x, z, giro, frente, fondo, pisos, color, colorPuerta, techoDeZinc, conBandera }: DatosCasa) {
+function CasaDominicana({ x, z, giro, frente, fondo, pisos, color, colorPuerta, techoDeZinc, conBandera }: DatosCasa) {
   const alto = pisos * d.alturaPiso;
   const fachada = fondo / 2;
   return (
@@ -144,6 +149,32 @@ function Casa({ x, z, giro, frente, fondo, pisos, color, colorPuerta, techoDeZin
         );
       })}
       {conBandera && <Bandera x={frente / 2 - 0.6} y={alto - 0.3} z={fachada} />}
+    </group>
+  );
+}
+
+function Casa(datos: DatosCasa) {
+  const barrio = datos.deBarrio;
+  if (!barrio) return <CasaDominicana {...datos} />;
+  return (
+    <group position={[barrio.x, 0.15, datos.z]} rotation-y={datos.giro}>
+      <CasaDeBarrio
+        nombre={barrio.nombre}
+        pared={barrio.pared}
+        tejado={barrio.tejado}
+        anchoMaximo={datos.frente - 0.4}
+        extra={({ ancho, alto }) =>
+          datos.conBandera && <Bandera x={ancho / 2 - 0.5} y={Math.min(alto - 0.6, 3.3)} z={0} />
+        }
+      />
+    </group>
+  );
+}
+
+function ObjetoDeCalle({ ruta, x, z, alto, giro }: { ruta: string; x: number; z: number; alto: number; giro: number }) {
+  return (
+    <group position={[x, 0.15, z]}>
+      <Modelo ruta={ruta} alto={alto} giro={giro} />
     </group>
   );
 }
@@ -187,13 +218,35 @@ export function Decorado() {
           colorPuerta: alAzar(d.coloresPuertas),
           techoDeZinc: Math.random() < 0.35,
           conBandera: Math.random() < d.probabilidadBandera,
+          deBarrio:
+            Math.random() < CONFIG.casas.probabilidadDeBarrio
+              ? {
+                  nombre: alAzar(CONFIG.casas.modelos),
+                  ...alAzar(COMBINACIONES),
+                  x: lado * (bordeCarretera + d.anchoAcera + 0.3),
+                }
+              : null,
         };
       }),
     );
     const palmeras = Array.from({ length: d.palmerasPorTrozo }, () => {
       const lado = Math.random() < 0.5 ? -1 : 1;
-      return { x: lado * (bordeCarretera + 0.6), z: entre(-largoTrozo / 2, largoTrozo / 2) };
+      return { x: lado * (bordeCarretera + 0.6), z: entre(-largoTrozo / 2, -largoTrozo / 6) };
     });
+    const ladoAlAzar = () => (Math.random() < 0.5 ? -1 : 1);
+    const objetos: { ruta: string; x: number; z: number; alto: number; giro: number }[] = [];
+    if (Math.random() < d.probabilidadPosteDeLuz) {
+      const lado = ladoAlAzar();
+      objetos.push({ ruta: RUTA_POSTE, x: lado * (bordeCarretera + 0.35), z: entre(-3, 3), alto: 6.5, giro: Math.PI / 2 });
+    }
+    if (Math.random() < d.probabilidadFarola) {
+      const lado = ladoAlAzar();
+      objetos.push({ ruta: RUTA_FAROLA, x: lado * (bordeCarretera + 0.3), z: entre(5, 9), alto: 6, giro: (lado * Math.PI) / 2 });
+    }
+    if (Math.random() < d.probabilidadContenedor) {
+      const lado = ladoAlAzar();
+      objetos.push({ ruta: RUTA_CONTENEDOR, x: lado * (bordeCarretera + d.anchoAcera - 0.8), z: entre(-9, 9), alto: 1.4, giro: (-lado * Math.PI) / 2 });
+    }
     const personas = Array.from({ length: d.personasPorTrozo }, () => {
       const lado = Math.random() < 0.5 ? -1 : 1;
       return {
@@ -203,7 +256,7 @@ export function Decorado() {
         mirando: entre(0, Math.PI * 2),
       };
     });
-    return { casas, palmeras, personas };
+    return { casas, palmeras, personas, objetos };
   }, []);
 
   return (
@@ -222,6 +275,9 @@ export function Decorado() {
       ))}
       {cosas.personas.map((p, i) => (
         <Persona key={i} {...p} />
+      ))}
+      {cosas.objetos.map((o, i) => (
+        <ObjetoDeCalle key={i} {...o} />
       ))}
     </group>
   );

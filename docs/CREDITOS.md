@@ -3,6 +3,8 @@
 | Qué | Autor | Licencia | De dónde |
 |---|---|---|---|
 | Coches, taxis, camiones (`public/modelos/coches/`) | Kenney — Car Kit | CC0 (libre, sin obligación de citar) | https://kenney.nl/assets/car-kit |
+| Casas de barrio (`public/modelos/casas/`), repintadas con colores caribeños | Kenney — City Kit (Suburban) | CC0 (libre, sin obligación de citar) | https://kenney.nl/assets/city-kit-suburban |
+| Postes de luz, farolas y contenedores (`public/modelos/calle/`) | Kenney — City Kit (Roads) | CC0 (libre, sin obligación de citar) | https://kenney.nl/assets/city-kit-roads |
 | Personas animadas (`public/modelos/personas/`) | Kenney — Mini Characters | CC0 (libre, sin obligación de citar) | https://kenney.nl/assets/mini-characters |
 | Moto roja de la protagonista (`public/modelos/moto.glb`) | Poly by Google | CC-BY 3.0 (hay que citar al autor) | https://poly.pizza/m/dse64pqMKAR |
 | Moto de los motoconchos (`public/modelos/motoconcho.glb`) | Paul Spooner — "Motorcycle, Suzuki SV650" | CC-BY 3.0 (hay que citar al autor) | https://poly.pizza/m/1yfyze7uGxS |

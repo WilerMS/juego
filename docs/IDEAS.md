@@ -17,6 +17,8 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 - Palmeras 3D de Quaternius
 - Calle con textura de asfalto de verdad y baches realistas (grietas, escombros y charcos)
 - Modelos 3D de verdad: coches y personas de Kenney (con animaciones de correr, andar, conducir y caerse) y moto de Poly Pizza
+- 21 casas de barrio en 3D pintadas con colores caribeños y tejados variados, mezcladas con las casas de balcones
+- Postes de luz con cables, farolas y contenedores en las aceras
 - Tráfico en movimiento: coches, camiones y motos que van en tu sentido y otros que vienen de frente por el carril izquierdo (con ruedas que giran)
 - Baches de tierra marrón
 - Coches, motoconchos y personas que cruzan la calle como obstáculos
@@ -26,6 +28,7 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 
 - Volver a poner estrellas (o monedas) en los carriles para recogerlas
 - Contador de metros mientras corres y récord
+- Tiendas con toldo (colmado, banca de lotería, salón de belleza) usando los modelos comerciales de Kenney
 - Más República Dominicana: un colmado con su letrero, guaguas, música de merengue/bachata
 - Que las banderas ondeen con el viento
 - Más calle rota: tapas de alcantarilla, parches de asfalto, líneas medio borradas
