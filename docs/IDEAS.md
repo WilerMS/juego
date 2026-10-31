@@ -10,6 +10,7 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 - Cambiar de carril con swipe (móvil) o flechas (ordenador), y saltar con swipe arriba o espacio
 - Decorado: edificios de colores y gente en las aceras
 - Cielo azul
+- Montañas nevadas a lo lejos
 - Camiones (esquivar) y baches (saltar) en la carretera, con pantalla de "¡Chocaste!" y metros recorridos
 
 ## Pendientes 💡

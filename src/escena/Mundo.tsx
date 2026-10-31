@@ -5,6 +5,7 @@ import { CONFIG } from "../config";
 import { Jugador } from "./Jugador";
 import { Carretera } from "./Carretera";
 import { Obstaculos } from "./Obstaculos";
+import { Montanas } from "./Montanas";
 import { posicionJugador } from "./posicion";
 
 function Sol() {
@@ -48,6 +49,7 @@ export function Mundo({ onChocar }: { onChocar: () => void }) {
       <fog attach="fog" args={[CONFIG.mundo.colorCielo, lejos * 0.5, lejos]} />
       <ambientLight intensity={0.6} />
       <Sol />
+      <Montanas />
       <Carretera />
       <Obstaculos onChocar={onChocar} />
       <Jugador />

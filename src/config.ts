@@ -33,6 +33,14 @@ export const CONFIG = {
     tamanoBache: 0.9,
     colorBache: "#1e1e22",
   },
+  montanas: {
+    cantidad: 12,
+    distancia: 260,
+    alturaMinima: 25,
+    alturaMaxima: 55,
+    color: "#6f8fb8",
+    colorNieve: "#ffffff",
+  },
   mundo: {
     colorCielo: "#4aa8ff",
     gravedad: 22,
