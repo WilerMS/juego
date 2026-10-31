@@ -17,7 +17,8 @@ export function Montanas() {
           x: (i / (m.cantidad - 1) - 0.5) * m.distancia * 2.4 + (Math.random() - 0.5) * 30,
           z: -m.distancia - Math.random() * 60,
           alto,
-          ancho: alto * (1.2 + Math.random() * 0.6),
+          ancho: alto * (1.8 + Math.random() * 0.8),
+          color: m.colores[i % m.colores.length],
         };
       }),
     [],
@@ -30,16 +31,10 @@ export function Montanas() {
   return (
     <group ref={grupo}>
       {montanas.map((montana, i) => (
-        <group key={i} position={[montana.x, 0, montana.z]}>
-          <mesh position-y={montana.alto / 2}>
-            <coneGeometry args={[montana.ancho, montana.alto, 7]} />
-            <meshStandardMaterial color={m.color} fog={false} flatShading />
-          </mesh>
-          <mesh position-y={montana.alto * 0.85}>
-            <coneGeometry args={[montana.ancho * 0.3 + 0.5, montana.alto * 0.3 + 0.1, 7]} />
-            <meshStandardMaterial color={m.colorNieve} fog={false} flatShading />
-          </mesh>
-        </group>
+        <mesh key={i} position={[montana.x, 0, montana.z]} scale={[montana.ancho, montana.alto, montana.ancho]}>
+          <sphereGeometry args={[1, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2]} />
+          <meshStandardMaterial color={montana.color} flatShading />
+        </mesh>
       ))}
     </group>
   );

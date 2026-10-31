@@ -147,7 +147,7 @@ function Casa({ x, z, giro, frente, fondo, pisos, color, colorPuerta, techoDeZin
   );
 }
 
-function Palmera({ x, z, lado }: { x: number; z: number; lado: number }) {
+export function Palmera({ x, z, lado }: { x: number; z: number; lado: number }) {
   const hojas = 7;
   return (
     <group position={[x, 0.15, z]} rotation-z={lado * 0.12}>
@@ -231,7 +231,7 @@ export function Decorado() {
   }, []);
 
   return (
-    <>
+    <group>
       {[-1, 1].map((lado) => (
         <mesh key={lado} rotation-x={-Math.PI / 2} position={[lado * centroAcera, 0.15, 0]} receiveShadow>
           <planeGeometry args={[d.anchoAcera, largoTrozo]} />
@@ -247,6 +247,6 @@ export function Decorado() {
       {cosas.personas.map((p, i) => (
         <Persona key={i} {...p} />
       ))}
-    </>
+    </group>
   );
 }

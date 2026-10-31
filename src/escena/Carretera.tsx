@@ -4,6 +4,7 @@ import type { Group } from "three";
 import { CONFIG } from "../config";
 import { posicionJugador } from "./posicion";
 import { Decorado } from "./Decorado";
+import { cuantoHaCrecido } from "./horizonte";
 
 const { anchoCarril, largoTrozo, trozosVisibles } = CONFIG.carretera;
 const anchoCarretera = anchoCarril * 3;
@@ -48,6 +49,9 @@ export function Carretera() {
     trozos.current?.children.forEach((trozo, i) => {
       const numero = primero + ((((i - primero) % trozosVisibles) + trozosVisibles) % trozosVisibles);
       trozo.position.z = -numero * largoTrozo - largoTrozo / 2;
+      const decorado = trozo.children[trozo.children.length - 1];
+      decorado.scale.y = cuantoHaCrecido(posicionJugador.z - trozo.position.z);
+      decorado.visible = decorado.scale.y > 0.01;
     });
     if (hierba.current) hierba.current.position.z = posicionJugador.z;
   });

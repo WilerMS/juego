@@ -6,6 +6,7 @@ import { Jugador } from "./Jugador";
 import { Carretera } from "./Carretera";
 import { Obstaculos } from "./Obstaculos";
 import { Montanas } from "./Montanas";
+import { Playa } from "./Playa";
 import { posicionJugador } from "./posicion";
 
 function Sol() {
@@ -42,14 +43,14 @@ function Sol() {
 }
 
 export function Mundo({ onChocar }: { onChocar: () => void }) {
-  const lejos = CONFIG.carretera.largoTrozo * (CONFIG.carretera.trozosVisibles - 2);
   return (
     <Canvas shadows camera={{ fov: 60, position: [0, CONFIG.camara.altura, CONFIG.camara.distancia] }}>
       <color attach="background" args={[CONFIG.mundo.colorCielo]} />
-      <fog attach="fog" args={[CONFIG.mundo.colorCielo, lejos * 0.5, lejos]} />
+      <fog attach="fog" args={[CONFIG.mundo.colorCielo, 100, 550]} />
       <ambientLight intensity={0.6} />
       <Sol />
       <Montanas />
+      <Playa />
       <Carretera />
       <Obstaculos onChocar={onChocar} />
       <Jugador />

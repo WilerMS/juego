@@ -10,7 +10,7 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 - Cambiar de carril con swipe (móvil) o flechas (ordenador), y saltar con swipe arriba o espacio
 - Decorado: edificios de colores y gente en las aceras
 - Cielo azul
-- Montañas nevadas a lo lejos
+- Montañas verdes y playa con mar turquesa al final de la calle (antes eran montañas nevadas)
 - Casas de colores al estilo de República Dominicana (balcones, persianas, techos de zinc) y palmeras
 - Banderas dominicanas en algunas casas (de vez en cuando)
 - Camiones (esquivar) y baches (saltar) en la carretera, con pantalla de "¡Chocaste!" y metros recorridos

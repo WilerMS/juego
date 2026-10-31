@@ -39,11 +39,17 @@ export const CONFIG = {
   },
   montanas: {
     cantidad: 12,
-    distancia: 260,
-    alturaMinima: 25,
-    alturaMaxima: 55,
-    color: "#6f8fb8",
-    colorNieve: "#ffffff",
+    distancia: 270,
+    alturaMinima: 20,
+    alturaMaxima: 45,
+    colores: ["#3f8f4f", "#4fa35c", "#2f7a42", "#5bb069"],
+  },
+  playa: {
+    distancia: 125,
+    anchoArena: 28,
+    colorArena: "#f3dca2",
+    colorMar: "#1fc7d4",
+    palmeras: 12,
   },
   mundo: {
     colorCielo: "#4aa8ff",

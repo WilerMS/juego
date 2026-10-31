@@ -4,6 +4,7 @@ import type { Group } from "three";
 import { CONFIG } from "../config";
 import { posicionJugador } from "./posicion";
 import { partida } from "./partida";
+import { cuantoHaCrecido } from "./horizonte";
 
 const o = CONFIG.obstaculos;
 const { anchoCarril } = CONFIG.carretera;
@@ -96,6 +97,8 @@ export function Obstaculos({ onChocar }: { onChocar: () => void }) {
 
       const hijo = grupo.current!.children[i];
       hijo.position.set(obstaculo.carril * anchoCarril, 0, obstaculo.z);
+      hijo.scale.y = cuantoHaCrecido(posicionJugador.z - obstaculo.z);
+      hijo.visible = hijo.scale.y > 0.01;
       hijo.children[0].visible = obstaculo.tipo === "camion";
       hijo.children[1].visible = obstaculo.tipo === "bache";
 
