@@ -175,9 +175,11 @@ export function Palmera({ x, z, lado }: { x: number; z: number; lado: number }) 
   );
 }
 
-function Persona({ x, z, color, mirando }: { x: number; z: number; color: string; mirando: number }) {
+type DatosPersona = { x: number; z: number; color: string; mirando: number; y?: number };
+
+export function Persona({ x, z, color, mirando, y = 0.15 }: DatosPersona) {
   return (
-    <group position={[x, 0.15, z]} rotation-y={mirando}>
+    <group position={[x, y, z]} rotation-y={mirando}>
       <mesh position-y={0.75} castShadow>
         <capsuleGeometry args={[0.25, 0.7, 6, 12]} />
         <meshStandardMaterial color={color} />
