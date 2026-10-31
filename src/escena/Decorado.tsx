@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { CONFIG } from "../config";
-import { Personaje, rutaPersona } from "./modelos";
+import { Modelo, Personaje, rutaPalmera, rutaPersona } from "./modelos";
 
 const { anchoCarril, largoTrozo } = CONFIG.carretera;
 const d = CONFIG.decorado;
@@ -148,30 +148,14 @@ function Casa({ x, z, giro, frente, fondo, pisos, color, colorPuerta, techoDeZin
   );
 }
 
-export function Palmera({ x, z, lado }: { x: number; z: number; lado: number }) {
-  const hojas = 7;
+export function Palmera({ x, z }: { x: number; z: number }) {
+  const datos = useMemo(
+    () => ({ nombre: alAzar(CONFIG.modelos.palmeras), giro: Math.random() * Math.PI * 2, alto: entre(0.85, 1.15) }),
+    [],
+  );
   return (
-    <group position={[x, 0.15, z]} rotation-z={lado * 0.12}>
-      <mesh position-y={2.6} castShadow>
-        <cylinderGeometry args={[0.13, 0.2, 5.2, 6]} />
-        <meshStandardMaterial color="#9c7b55" />
-      </mesh>
-      <group position-y={5.2}>
-        {Array.from({ length: hojas }, (_, i) => (
-          <group key={i} rotation-y={(i / hojas) * Math.PI * 2}>
-            <mesh position={[1, -0.25, 0]} rotation-z={-0.45} castShadow>
-              <boxGeometry args={[2.2, 0.05, 0.5]} />
-              <meshStandardMaterial color="#2e9e4f" />
-            </mesh>
-          </group>
-        ))}
-        {[0, 2, 4].map((i) => (
-          <mesh key={i} position={[Math.cos(i) * 0.22, -0.2, Math.sin(i) * 0.22]}>
-            <sphereGeometry args={[0.16, 8, 8]} />
-            <meshStandardMaterial color="#6b4423" />
-          </mesh>
-        ))}
-      </group>
+    <group position={[x, 0.15, z]}>
+      <Modelo ruta={rutaPalmera(datos.nombre)} alto={CONFIG.modelos.altoPalmera * datos.alto} giro={datos.giro} />
     </group>
   );
 }
@@ -208,7 +192,7 @@ export function Decorado() {
     );
     const palmeras = Array.from({ length: d.palmerasPorTrozo }, () => {
       const lado = Math.random() < 0.5 ? -1 : 1;
-      return { x: lado * (bordeCarretera + 0.6), z: entre(-largoTrozo / 2, largoTrozo / 2), lado };
+      return { x: lado * (bordeCarretera + 0.6), z: entre(-largoTrozo / 2, largoTrozo / 2) };
     });
     const personas = Array.from({ length: d.personasPorTrozo }, () => {
       const lado = Math.random() < 0.5 ? -1 : 1;

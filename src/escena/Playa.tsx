@@ -17,7 +17,6 @@ export function Playa() {
         return {
           x: lado * (8 + Math.random() * 90),
           z: -p.distancia - 4 - Math.random() * (p.anchoArena - 10),
-          lado,
         };
       }),
     [],

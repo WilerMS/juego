@@ -9,11 +9,15 @@ const m = CONFIG.modelos;
 
 export const rutaCoche = (nombre: string) => `/modelos/coches/${nombre}.glb`;
 export const rutaPersona = (nombre: string) => `/modelos/personas/${nombre}.glb`;
-export const RUTA_MOTO = "/modelos/moto.glb";
+export const rutaPalmera = (nombre: string) => `/modelos/palmeras/${nombre}.glb`;
+export const RUTA_MOTO_JUGADORA = "/modelos/moto.glb";
+export const RUTA_MOTOCONCHO = "/modelos/motoconcho.glb";
 
 [...m.coches, ...m.camiones].forEach((n) => useGLTF.preload(rutaCoche(n)));
 [m.personaje, ...m.personas].forEach((n) => useGLTF.preload(rutaPersona(n)));
-useGLTF.preload(RUTA_MOTO);
+m.palmeras.forEach((n) => useGLTF.preload(rutaPalmera(n)));
+useGLTF.preload(RUTA_MOTO_JUGADORA);
+useGLTF.preload(RUTA_MOTOCONCHO);
 
 const ANIMACIONES_UNA_VEZ = new Set(["jump", "die"]);
 
@@ -38,20 +42,21 @@ function asentarEnElSuelo(objeto: Object3D, escala: number) {
   return objeto;
 }
 
-type PropsVehiculo = { ruta: string; escala?: number; largo?: number; giro?: number };
+type PropsModelo = { ruta: string; escala?: number; largo?: number; alto?: number; giro?: number };
 
-export function Vehiculo({ ruta, escala = 1, largo, giro = Math.PI }: PropsVehiculo) {
+export function Modelo({ ruta, escala = 1, largo, alto, giro = Math.PI }: PropsModelo) {
   const { scene } = useGLTF(ruta);
   const copia = useMemo(() => {
     const objeto = conSombras(scene.clone(true));
     let tamano = escala;
-    if (largo) {
+    if (largo || alto) {
       objeto.scale.setScalar(1);
       objeto.position.set(0, 0, 0);
-      tamano = largo / medir(objeto).getSize(new Vector3()).z;
+      const medidas = medir(objeto).getSize(new Vector3());
+      tamano = largo ? largo / medidas.z : alto! / medidas.y;
     }
     return asentarEnElSuelo(objeto, tamano);
-  }, [scene, escala, largo]);
+  }, [scene, escala, largo, alto]);
 
   return (
     <group rotation-y={giro}>

@@ -4,6 +4,7 @@ export const CONFIG = {
     velocidadCarrera: 12,
     rapidezCambioCarril: 12,
     salto: 8,
+    inclinacionAlSaltar: 0.05,
   },
   carretera: {
     anchoCarril: 2.5,
@@ -56,6 +57,8 @@ export const CONFIG = {
     escalaCoches: 1.3,
     escalaCamiones: 1.4,
     largoMoto: 2.1,
+    altoPalmera: 5.5,
+    palmeras: ["palmera-1", "palmera-2", "palmera-3"],
     coches: ["sedan", "taxi", "suv", "van", "hatchback-sports", "police"],
     camiones: ["delivery", "garbage-truck", "truck"],
     personas: [

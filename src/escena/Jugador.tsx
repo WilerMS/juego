@@ -5,11 +5,10 @@ import { CONFIG } from "../config";
 import { entrada } from "../controles";
 import { posicionJugador } from "./posicion";
 import { partida } from "./partida";
-import { Personaje, rutaPersona } from "./modelos";
+import { Modelo, Personaje, RUTA_MOTO_JUGADORA, rutaPersona } from "./modelos";
 
 function animacionJugador() {
-  if (!partida.jugando) return "die";
-  return posicionJugador.y > 0.05 ? "jump" : "sprint";
+  return partida.jugando ? "drive" : "die";
 }
 
 const destinoCamara = new Vector3();
@@ -20,8 +19,13 @@ export function Jugador() {
 
   useFrame((state, delta) => {
     const cuerpo = ref.current;
-    if (!cuerpo || !partida.jugando) return;
+    if (!cuerpo) return;
     const dt = Math.min(delta, 0.05);
+
+    if (!partida.jugando) {
+      cuerpo.rotation.z += (1.4 - cuerpo.rotation.z) * (1 - Math.exp(-6 * dt));
+      return;
+    }
 
     cuerpo.position.z -= CONFIG.jugador.velocidadCarrera * dt;
 
@@ -39,6 +43,7 @@ export function Jugador() {
       cuerpo.position.y = 0;
       velocidadY.current = 0;
     }
+    cuerpo.rotation.x = Math.max(-0.3, Math.min(0.4, velocidadY.current * CONFIG.jugador.inclinacionAlSaltar));
 
     posicionJugador.copy(cuerpo.position);
 
@@ -54,7 +59,10 @@ export function Jugador() {
 
   return (
     <group ref={ref} rotation-y={Math.PI}>
-      <Personaje ruta={rutaPersona(CONFIG.modelos.personaje)} animacion={animacionJugador} />
+      <Modelo ruta={RUTA_MOTO_JUGADORA} largo={CONFIG.modelos.largoMoto} />
+      <group position={[0, 0.45, -0.15]}>
+        <Personaje ruta={rutaPersona(CONFIG.modelos.personaje)} animacion={animacionJugador} />
+      </group>
     </group>
   );
 }

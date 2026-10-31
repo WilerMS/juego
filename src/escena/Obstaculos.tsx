@@ -5,7 +5,7 @@ import { CONFIG } from "../config";
 import { posicionJugador } from "./posicion";
 import { partida } from "./partida";
 import { cuantoHaCrecido } from "./horizonte";
-import { Personaje, RUTA_MOTO, Vehiculo, rutaCoche, rutaPersona } from "./modelos";
+import { Modelo, Personaje, RUTA_MOTOCONCHO, rutaCoche, rutaPersona } from "./modelos";
 
 const o = CONFIG.obstaculos;
 const { anchoCarril } = CONFIG.carretera;
@@ -69,7 +69,7 @@ function colocar(obstaculo: Obstaculo, z: number) {
 function Moto({ motorista }: { motorista: string }) {
   return (
     <group>
-      <Vehiculo ruta={RUTA_MOTO} largo={CONFIG.modelos.largoMoto} giro={0} />
+      <Modelo ruta={RUTA_MOTOCONCHO} largo={CONFIG.modelos.largoMoto} />
       <group position={[0, 0.45, 0.15]} rotation-y={Math.PI}>
         <Personaje ruta={rutaPersona(motorista)} animacion="drive" />
       </group>
@@ -158,8 +158,8 @@ export function Obstaculos({ onChocar }: { onChocar: () => void }) {
     <group ref={grupo}>
       {lista.map((obstaculo, i) => (
         <group key={i}>
-          <Vehiculo ruta={rutaCoche(obstaculo.camion)} escala={CONFIG.modelos.escalaCamiones} />
-          <Vehiculo ruta={rutaCoche(obstaculo.coche)} escala={CONFIG.modelos.escalaCoches} />
+          <Modelo ruta={rutaCoche(obstaculo.camion)} escala={CONFIG.modelos.escalaCamiones} />
+          <Modelo ruta={rutaCoche(obstaculo.coche)} escala={CONFIG.modelos.escalaCoches} />
           <Moto motorista={obstaculo.motorista} />
           <Bache />
           <group>
