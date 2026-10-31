@@ -42,9 +42,16 @@ function asentarEnElSuelo(objeto: Object3D, escala: number) {
   return objeto;
 }
 
-type PropsModelo = { ruta: string; escala?: number; largo?: number; alto?: number; giro?: number };
+type PropsModelo = {
+  ruta: string;
+  escala?: number;
+  largo?: number;
+  alto?: number;
+  giro?: number;
+  velocidadRuedas?: () => number;
+};
 
-export function Modelo({ ruta, escala = 1, largo, alto, giro = Math.PI }: PropsModelo) {
+export function Modelo({ ruta, escala = 1, largo, alto, giro = Math.PI, velocidadRuedas }: PropsModelo) {
   const { scene } = useGLTF(ruta);
   const copia = useMemo(() => {
     const objeto = conSombras(scene.clone(true));
@@ -57,6 +64,20 @@ export function Modelo({ ruta, escala = 1, largo, alto, giro = Math.PI }: PropsM
     }
     return asentarEnElSuelo(objeto, tamano);
   }, [scene, escala, largo, alto]);
+
+  const ruedas = useMemo(() => {
+    const lista: Object3D[] = [];
+    copia.traverse((hijo) => {
+      if (hijo.name.startsWith("wheel")) lista.push(hijo);
+    });
+    return lista;
+  }, [copia]);
+
+  useFrame((_, delta) => {
+    if (!velocidadRuedas || ruedas.length === 0) return;
+    const giroRueda = (velocidadRuedas() * Math.min(delta, 0.05)) / (0.3 * copia.scale.x);
+    for (const rueda of ruedas) rueda.rotation.x += giroRueda;
+  });
 
   return (
     <group rotation-y={giro}>

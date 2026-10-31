@@ -29,6 +29,7 @@ type Obstaculo = {
   x: number;
   z: number;
   direccion: number;
+  velocidad: number;
   andando: boolean;
   coche: string;
   camion: string;
@@ -61,9 +62,13 @@ function colocar(obstaculo: Obstaculo, z: number) {
     const lado = Math.random() < 0.5 ? -1 : 1;
     obstaculo.x = lado * BORDE_CALLE;
     obstaculo.direccion = -lado;
+    obstaculo.velocidad = 0;
   } else {
-    obstaculo.x = (Math.floor(Math.random() * 3) - 1) * anchoCarril;
+    const carril = Math.floor(Math.random() * 3) - 1;
+    obstaculo.x = carril * anchoCarril;
     obstaculo.direccion = 0;
+    if (obstaculo.tipo === "bache") obstaculo.velocidad = 0;
+    else obstaculo.velocidad = carril === o.carrilDeFrente ? -o.velocidadDeFrente : o.velocidadTrafico;
   }
 }
 
@@ -90,6 +95,7 @@ export function Obstaculos({ onChocar }: { onChocar: () => void }) {
         x: 0,
         z: 0,
         direccion: 0,
+        velocidad: 0,
         andando: false,
         coche: alAzar(CONFIG.modelos.coches),
         camion: alAzar(CONFIG.modelos.camiones),
@@ -115,6 +121,7 @@ export function Obstaculos({ onChocar }: { onChocar: () => void }) {
         masLejos = obstaculo.z;
       }
 
+      obstaculo.z -= obstaculo.velocidad * dt;
       const delante = posicionJugador.z - obstaculo.z;
       const hijo = grupo.current!.children[i];
       const peaton = hijo.children[4];
@@ -126,6 +133,7 @@ export function Obstaculos({ onChocar }: { onChocar: () => void }) {
       }
 
       hijo.position.set(obstaculo.x, 0, obstaculo.z);
+      hijo.rotation.y = obstaculo.velocidad < 0 ? Math.PI : 0;
       hijo.scale.y = cuantoHaCrecido(delante);
       hijo.visible = hijo.scale.y > 0.01;
       TIPOS.forEach((tipo, n) => (hijo.children[n].visible = obstaculo.tipo === tipo));
@@ -145,8 +153,16 @@ export function Obstaculos({ onChocar }: { onChocar: () => void }) {
     <group ref={grupo}>
       {lista.map((obstaculo, i) => (
         <group key={i}>
-          <Modelo ruta={rutaCoche(obstaculo.camion)} escala={CONFIG.modelos.escalaCamiones} />
-          <Modelo ruta={rutaCoche(obstaculo.coche)} escala={CONFIG.modelos.escalaCoches} />
+          <Modelo
+            ruta={rutaCoche(obstaculo.camion)}
+            escala={CONFIG.modelos.escalaCamiones}
+            velocidadRuedas={() => Math.abs(obstaculo.velocidad)}
+          />
+          <Modelo
+            ruta={rutaCoche(obstaculo.coche)}
+            escala={CONFIG.modelos.escalaCoches}
+            velocidadRuedas={() => Math.abs(obstaculo.velocidad)}
+          />
           <Moto motorista={obstaculo.motorista} />
           <Bache />
           <group>

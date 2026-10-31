@@ -17,6 +17,8 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 - Palmeras 3D de Quaternius
 - Calle con textura de asfalto de verdad y baches realistas (grietas, escombros y charcos)
 - Modelos 3D de verdad: coches y personas de Kenney (con animaciones de correr, andar, conducir y caerse) y moto de Poly Pizza
+- Tráfico en movimiento: coches, camiones y motos que van en tu sentido y otros que vienen de frente por el carril izquierdo (con ruedas que giran)
+- Baches de tierra marrón
 - Coches, motoconchos y personas que cruzan la calle como obstáculos
 - Camiones (esquivar) y baches (saltar) en la carretera, con pantalla de "¡Chocaste!" y metros recorridos
 
@@ -24,7 +26,6 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 
 - Volver a poner estrellas (o monedas) en los carriles para recogerlas
 - Contador de metros mientras corres y récord
-- Vehículos que se mueven (que vengan de frente o te adelanten)
 - Más República Dominicana: un colmado con su letrero, guaguas, música de merengue/bachata
 - Que las banderas ondeen con el viento
 - Más calle rota: tapas de alcantarilla, parches de asfalto, líneas medio borradas
