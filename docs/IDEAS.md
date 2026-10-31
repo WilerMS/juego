@@ -17,6 +17,7 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 - Palmeras 3D de Quaternius
 - Calle con textura de asfalto de verdad y baches realistas (grietas, escombros y charcos)
 - Modelos 3D de verdad: coches y personas de Kenney (con animaciones de correr, andar, conducir y caerse) y moto de Poly Pizza
+- Se puede instalar en el móvil como una app (PWA), con icono de la protagonista en su moto
 - 21 casas de barrio en 3D pintadas con colores caribeños y tejados variados, mezcladas con las casas de balcones
 - Postes de luz con cables, farolas y contenedores en las aceras
 - Tráfico en movimiento: coches, camiones y motos que van en tu sentido y otros que vienen de frente por el carril izquierdo (con ruedas que giran)
@@ -35,7 +36,7 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 - Que al pasar por un charco salpique agua
 - Que la velocidad suba poco a poco
 - Agacharse / deslizarse con swipe abajo
-- ¿Cómo se llama el juego?
+- ¿Cómo se llama el juego? (ahora la app se llama "Nuestro juego"; se cambia en `vite.config.ts` e `index.html`)
 - ¿Cómo se llama la protagonista? (es `character-female-b` en su moto roja; se cambia en `config.ts`)
 
 ## Descartadas 🗑️

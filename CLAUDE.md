@@ -28,6 +28,7 @@ Todo lo que se pueda ajustar a mano (colores, velocidades, cantidades, tamaños)
 - **Vite** + **React 19** + **TypeScript**
 - **three.js** a través de **@react-three/fiber** (escena 3D como componentes React) y **@react-three/drei** (piezas ya hechas: cielo, textos, modelos…)
 - Sin backend, sin router, sin librería de estado. El estado compartido entre la escena y la UI va en `App.tsx` o en objetos simples de módulo (como `entrada` en `controles.ts` o `posicionJugador`).
+- **PWA** con `vite-plugin-pwa` (config en `vite.config.ts`, iconos en `public/pwa-*.png`, `apple-touch-icon.png`, `favicon.ico`). Los modelos y texturas no van en el precache: se guardan la primera vez que se usan.
 - Producción: `npm run build` genera `dist/` y `npm start` lo sirve con `serve` en el `$PORT` de Railway.
 
 Antes de añadir una dependencia nueva, pregunta. Opciones razonables si hacen falta: `@react-three/rapier` (física de verdad), `zustand` (si el estado crece mucho), `howler` (sonidos).

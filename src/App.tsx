@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRegisterSW } from "virtual:pwa-register/react";
 import { escucharTeclado } from "./controles";
 import { Mundo } from "./escena/Mundo";
 import { posicionJugador } from "./escena/posicion";
@@ -10,6 +11,7 @@ export function App() {
   const [partida, setPartida] = useState(0);
   const [metros, setMetros] = useState<number | null>(null);
 
+  useRegisterSW({ immediate: true });
   useEffect(() => escucharTeclado(), []);
 
   const chocar = () => setMetros(Math.floor(-posicionJugador.z));
