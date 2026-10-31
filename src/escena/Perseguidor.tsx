@@ -40,7 +40,10 @@ export function Perseguidor() {
     const cuerpo = grupo.current;
     if (!cuerpo || seFue.current) return;
     cuerpo.visible = !partida.enMenu;
-    if (partida.enMenu) return;
+    if (partida.enMenu) {
+      if (bocadillo.current) bocadillo.current.style.display = "none";
+      return;
+    }
     const dt = Math.min(delta, 0.05);
 
     if (partida.enIntro) {
@@ -67,7 +70,7 @@ export function Perseguidor() {
         <Personaje ruta={ruta(elegido.tipo)} animacion={elegido.datos.animacion} alto={elegido.datos.alto} />
       </group>
       <Html position={[0, elegido.datos.alto + 0.6, 0]} center zIndexRange={[10, 0]}>
-        <div ref={bocadillo} className="bocadillo">
+        <div ref={bocadillo} className="bocadillo" style={{ display: "none" }}>
           {elegido.frase}
         </div>
       </Html>
