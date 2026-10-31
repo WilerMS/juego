@@ -46,7 +46,8 @@ export function Carretera() {
   useFrame(() => {
     const primero = Math.floor(-posicionJugador.z / largoTrozo) - 1;
     trozos.current?.children.forEach((trozo, i) => {
-      trozo.position.z = -(primero + i) * largoTrozo - largoTrozo / 2;
+      const numero = primero + ((((i - primero) % trozosVisibles) + trozosVisibles) % trozosVisibles);
+      trozo.position.z = -numero * largoTrozo - largoTrozo / 2;
     });
     if (hierba.current) hierba.current.position.z = posicionJugador.z;
   });
