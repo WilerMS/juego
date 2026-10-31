@@ -8,6 +8,35 @@ export const CONFIG = {
     inclinacionAlSaltar: 0.05,
     temblorAMaximaVelocidad: 0.06,
   },
+  intro: {
+    duracion: 3.5,
+    distanciaPerseguidor: 13,
+    velocidadPerseguidorEnIntro: 3,
+    velocidadPerseguidorDespues: 11,
+    segundosConBocadillo: 2.5,
+    perseguidorDesapareceA: 45,
+  },
+  perseguidores: {
+    frecuencia: { persona: 1, perro: 1, gato: 1 },
+    persona: {
+      modelo: "persona",
+      alto: 1.8,
+      animacion: "CharacterArmature|Run",
+      frases: ["¡Ven acá!", "¡Párate ahí!", "¡Devuélveme mi mango! 🥭", "¡Esa moto es mía!"],
+    },
+    perro: {
+      modelo: "perro",
+      alto: 1.2,
+      animacion: "AnimalArmature|Gallop",
+      frases: ["¡GUAU GUAU! 🐕", "¡GRRR… GUAU!", "¡WOOF!"],
+    },
+    gato: {
+      modelo: "gato",
+      alto: 0.9,
+      animacion: "AnimalArmature|AnimalArmature|AnimalArmature|Run",
+      frases: ["¡MIAUUU! 🐈", "¡FFFSSS! 😾", "¡MIAU MIAU!"],
+    },
+  },
   protagonista: {
     modelo: "protagonista",
     escala: 0.37,

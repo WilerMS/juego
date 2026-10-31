@@ -7,6 +7,7 @@ import { Carretera } from "./Carretera";
 import { Obstaculos } from "./Obstaculos";
 import { Montanas } from "./Montanas";
 import { Playa } from "./Playa";
+import { Perseguidor } from "./Perseguidor";
 import { posicionJugador } from "./posicion";
 
 function Sol() {
@@ -55,6 +56,7 @@ export function Mundo({ onChocar }: { onChocar: () => void }) {
         <Carretera />
         <Obstaculos onChocar={onChocar} />
         <Jugador />
+        <Perseguidor />
       </Suspense>
     </Canvas>
   );

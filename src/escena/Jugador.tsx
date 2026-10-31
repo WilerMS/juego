@@ -15,10 +15,13 @@ function animacionJugador() {
 }
 
 const destinoCamara = new Vector3();
+const objetivoMirada = new Vector3();
+const miradaSuave = new Vector3(0, 1, -6);
 
 export function Jugador() {
   const ref = useRef<Group>(null);
   const velocidadY = useRef(0);
+  const segundosDesdeSalida = useRef(0);
 
   useFrame((state, delta) => {
     const cuerpo = ref.current;
@@ -29,6 +32,27 @@ export function Jugador() {
       cuerpo.rotation.z += (1.4 - cuerpo.rotation.z) * (1 - Math.exp(-6 * dt));
       return;
     }
+
+    if (partida.enIntro) {
+      partida.tiempoIntro += dt;
+      cuerpo.position.y = Math.abs(Math.sin(partida.tiempoIntro * 45)) * 0.015;
+      posicionJugador.copy(cuerpo.position);
+      const giro = 0.6 - partida.tiempoIntro * 0.12;
+      destinoCamara.set(Math.sin(giro) * 6, 2.2, cuerpo.position.z - Math.cos(giro) * 6);
+      state.camera.position.lerp(destinoCamara, 1 - Math.exp(-3 * dt));
+      objetivoMirada.set(0, 1.1, cuerpo.position.z + 4);
+      miradaSuave.lerp(objetivoMirada, 1 - Math.exp(-4 * dt));
+      state.camera.lookAt(miradaSuave);
+      if (partida.tiempoIntro >= CONFIG.intro.duracion) {
+        partida.enIntro = false;
+        cuerpo.position.y = 0;
+        entrada.carril = 0;
+        entrada.saltar = false;
+        segundosDesdeSalida.current = 0;
+      }
+      return;
+    }
+    segundosDesdeSalida.current += dt;
 
     partida.velocidad = Math.min(j.velocidadMaxima, partida.velocidad + j.aceleracion * dt);
     const progreso = progresoVelocidad();
@@ -57,8 +81,9 @@ export function Jugador() {
       cuerpo.position.y * 0.5 + CONFIG.camara.altura,
       cuerpo.position.z + CONFIG.camara.distancia,
     );
-    state.camera.position.lerp(destinoCamara, 1 - Math.exp(-8 * dt));
-    state.camera.position.z = destinoCamara.z;
+    const transicion = Math.min(1, segundosDesdeSalida.current / 1.2);
+    state.camera.position.lerp(destinoCamara, 1 - Math.exp(-(3 + 5 * transicion) * dt));
+    if (transicion >= 1) state.camera.position.z = destinoCamara.z;
     const temblor = j.temblorAMaximaVelocidad * progreso;
     state.camera.position.x += (Math.random() - 0.5) * temblor;
     state.camera.position.y += (Math.random() - 0.5) * temblor;
@@ -68,7 +93,10 @@ export function Jugador() {
       camara.fov = angulo;
       camara.updateProjectionMatrix();
     }
-    state.camera.lookAt(cuerpo.position.x * 0.5, 1, cuerpo.position.z - 6);
+    objetivoMirada.set(cuerpo.position.x * 0.5, 1, cuerpo.position.z - 6);
+    if (transicion < 1) miradaSuave.lerp(objetivoMirada, 1 - Math.exp(-6 * dt));
+    else miradaSuave.copy(objetivoMirada);
+    state.camera.lookAt(miradaSuave);
   });
 
   return (

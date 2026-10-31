@@ -4,7 +4,11 @@ import { posicionJugador } from "./posicion";
 
 const j = CONFIG.jugador;
 
-export const partida = { jugando: true, velocidad: j.velocidadInicial };
+export const partida = { jugando: true, enIntro: true, tiempoIntro: 0, velocidad: j.velocidadInicial };
+
+export function saltarIntro() {
+  partida.tiempoIntro = CONFIG.intro.duracion;
+}
 
 export function progresoVelocidad() {
   return (partida.velocidad - j.velocidadInicial) / (j.velocidadMaxima - j.velocidadInicial);
@@ -12,6 +16,8 @@ export function progresoVelocidad() {
 
 export function reiniciarPartida() {
   partida.jugando = true;
+  partida.enIntro = true;
+  partida.tiempoIntro = 0;
   partida.velocidad = j.velocidadInicial;
   posicionJugador.set(0, 0, 0);
   entrada.carril = 0;

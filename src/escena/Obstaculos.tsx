@@ -126,7 +126,7 @@ export function Obstaculos({ onChocar }: { onChocar: () => void }) {
         masLejos = obstaculo.z;
       }
 
-      obstaculo.z -= obstaculo.velocidad * dt;
+      if (!partida.enIntro) obstaculo.z -= obstaculo.velocidad * dt;
       const delante = posicionJugador.z - obstaculo.z;
       const hijo = grupo.current!.children[i];
       const peaton = hijo.children[4];
@@ -148,7 +148,7 @@ export function Obstaculos({ onChocar }: { onChocar: () => void }) {
       const chocaX = Math.abs(posicionJugador.x - obstaculo.x) < t.ancho + 0.45;
       const chocaZ = Math.abs(delante) < t.largo / 2 + 0.3;
       const chocaY = posicionJugador.y < t.alto;
-      if (chocaX && chocaZ && chocaY) {
+      if (chocaX && chocaZ && chocaY && !partida.enIntro) {
         partida.jugando = false;
         onChocar();
       }

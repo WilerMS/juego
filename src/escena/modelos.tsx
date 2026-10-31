@@ -88,11 +88,12 @@ export function Modelo({ ruta, escala = 1, largo, alto, giro = Math.PI, velocida
   );
 }
 
-type PropsPersonaje = { ruta: string; animacion: string | (() => string); escala?: number };
+type PropsPersonaje = { ruta: string; animacion: string | (() => string); escala?: number; alto?: number };
 
-export function Personaje({ ruta, animacion, escala = m.escalaPersonas }: PropsPersonaje) {
+export function Personaje({ ruta, animacion, escala = m.escalaPersonas, alto }: PropsPersonaje) {
   const { scene, animations } = useGLTF(ruta);
   const copia = useMemo(() => conSombras(clonarConEsqueleto(scene)), [scene]);
+  const tamano = useMemo(() => (alto ? alto / medir(copia).getSize(new Vector3()).y : escala), [copia, alto, escala]);
   const grupo = useRef<Group>(null);
   const { actions } = useAnimations(animations, grupo);
   const actual = useRef<AnimationAction | null>(null);
@@ -111,7 +112,7 @@ export function Personaje({ ruta, animacion, escala = m.escalaPersonas }: PropsP
   });
 
   return (
-    <group ref={grupo} scale={escala}>
+    <group ref={grupo} scale={tamano}>
       <primitive object={copia} />
     </group>
   );
