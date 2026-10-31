@@ -54,13 +54,16 @@ export function Jugador() {
     }
     segundosDesdeSalida.current += dt;
 
-    partida.velocidad = Math.min(j.velocidadMaxima, partida.velocidad + j.aceleracion * dt);
+    const metros = -cuerpo.position.z;
+    const objetivo = Math.min(j.velocidadMaxima, j.velocidadInicial + (metros / 100) * j.aumentoCadaCienMetros);
+    partida.velocidad += (objetivo - partida.velocidad) * (1 - Math.exp(-2 * dt));
     const progreso = progresoVelocidad();
     cuerpo.position.z -= partida.velocidad * dt;
 
     const destinoX = entrada.carril * CONFIG.carretera.anchoCarril;
     const antesX = cuerpo.position.x;
-    cuerpo.position.x += (destinoX - antesX) * (1 - Math.exp(-CONFIG.jugador.rapidezCambioCarril * dt));
+    const rapidezCarril = j.rapidezCambioCarril + (j.rapidezCambioCarrilAMaximaVelocidad - j.rapidezCambioCarril) * progreso;
+    cuerpo.position.x += (destinoX - antesX) * (1 - Math.exp(-rapidezCarril * dt));
     cuerpo.rotation.z = -(cuerpo.position.x - antesX) / dt * 0.02;
 
     const enElSuelo = cuerpo.position.y <= 0;

@@ -10,6 +10,10 @@ export function saltarIntro() {
   partida.tiempoIntro = CONFIG.intro.duracion;
 }
 
+export function nivelActual() {
+  return 1 + Math.floor(-posicionJugador.z / j.metrosPorNivel);
+}
+
 export function progresoVelocidad() {
   return (partida.velocidad - j.velocidadInicial) / (j.velocidadMaxima - j.velocidadInicial);
 }

@@ -18,7 +18,7 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 - Calle con textura de asfalto de verdad y baches realistas (grietas, escombros y charcos)
 - Modelos 3D de verdad: coches y personas de Kenney (con animaciones de correr, andar, conducir y caerse) y moto de Poly Pizza
 - Intro de persecución: al empezar te persigue una persona, un perro o un gato (al azar) con un bocadillo de cómic, y luego se queda atrás
-- Dificultad: la moto acelera sola de 50 a 135 km/h, los obstáculos salen más juntos cuanto más rápido vas, la cámara se abre y tiembla
+- Dificultad: la velocidad sube según los metros recorridos (+6 km/h cada 100 m, hasta 216 km/h) con aviso de nivel cada 500 m; los obstáculos salen más juntos cuanto más rápido vas, la cámara se abre y tiembla
 - Velocímetro (metros y km/h) y récord guardado en el móvil
 - Protagonista nueva con proporciones normales (Quaternius), sentada en la moto
 - Se puede instalar en el móvil como una app (PWA), con icono de la protagonista en su moto

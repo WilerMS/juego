@@ -1,9 +1,11 @@
 export const CONFIG = {
   jugador: {
     velocidadInicial: 14,
-    velocidadMaxima: 38,
-    aceleracion: 0.35,
+    velocidadMaxima: 60,
+    aumentoCadaCienMetros: 1.6,
+    metrosPorNivel: 500,
     rapidezCambioCarril: 10,
+    rapidezCambioCarrilAMaximaVelocidad: 17,
     salto: 8,
     inclinacionAlSaltar: 0.05,
     temblorAMaximaVelocidad: 0.06,
