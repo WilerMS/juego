@@ -4,7 +4,18 @@ import { posicionJugador } from "./posicion";
 
 const j = CONFIG.jugador;
 
-export const partida = { jugando: true, enIntro: true, tiempoIntro: 0, velocidad: j.velocidadInicial };
+export const partida = {
+  enMenu: true,
+  jugando: true,
+  enIntro: true,
+  tiempoIntro: 0,
+  velocidad: j.velocidadInicial,
+};
+
+export function empezarPartida() {
+  partida.enMenu = false;
+  partida.tiempoIntro = 0;
+}
 
 export function saltarIntro() {
   partida.tiempoIntro = CONFIG.intro.duracion;
@@ -19,6 +30,7 @@ export function progresoVelocidad() {
 }
 
 export function reiniciarPartida() {
+  partida.enMenu = false;
   partida.jugando = true;
   partida.enIntro = true;
   partida.tiempoIntro = 0;

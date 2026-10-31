@@ -34,10 +34,12 @@ export function Jugador() {
     }
 
     if (partida.enIntro) {
-      partida.tiempoIntro += dt;
-      cuerpo.position.y = Math.abs(Math.sin(partida.tiempoIntro * 45)) * 0.015;
+      if (!partida.enMenu) partida.tiempoIntro += dt;
+      cuerpo.position.y = partida.enMenu ? 0 : Math.abs(Math.sin(partida.tiempoIntro * 45)) * 0.015;
       posicionJugador.copy(cuerpo.position);
-      const giro = 0.6 - partida.tiempoIntro * 0.12;
+      const giro = partida.enMenu
+        ? 0.6 + Math.sin(state.clock.elapsedTime * CONFIG.menu.velocidadGiroCamara) * 1.2
+        : 0.6 - partida.tiempoIntro * 0.12;
       destinoCamara.set(Math.sin(giro) * 6, 2.2, cuerpo.position.z - Math.cos(giro) * 6);
       state.camera.position.lerp(destinoCamara, 1 - Math.exp(-3 * dt));
       objetivoMirada.set(0, 1.1, cuerpo.position.z + 4);

@@ -10,6 +10,11 @@ export const CONFIG = {
     inclinacionAlSaltar: 0.05,
     temblorAMaximaVelocidad: 0.06,
   },
+  menu: {
+    titulo: "Nuestro juego",
+    subtitulo: "¡Huye en moto por las calles de República Dominicana!",
+    velocidadGiroCamara: 0.25,
+  },
   intro: {
     duracion: 3.5,
     distanciaPerseguidor: 13,

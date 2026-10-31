@@ -1,15 +1,19 @@
 import { Velocimetro } from "./Velocimetro";
 import { AvisoIntro } from "./AvisoIntro";
 
-type Props = { metros: number | null; record: number; onOtraVez: () => void };
+type Props = { metros: number | null; record: number; enMenu: boolean; onOtraVez: () => void };
 
-export function Marcador({ metros, record, onOtraVez }: Props) {
+export function Marcador({ metros, record, enMenu, onOtraVez }: Props) {
   return (
     <>
-      <div className="ayuda ordenador">← → para cambiar de carril · Espacio para saltar</div>
-      <div className="ayuda movil">Desliza ⬅️ ➡️ para cambiar de carril · ⬆️ para saltar</div>
-      <Velocimetro />
-      <AvisoIntro />
+      {!enMenu && (
+        <>
+          <div className="ayuda ordenador">← → para cambiar de carril · Espacio para saltar</div>
+          <div className="ayuda movil">Desliza ⬅️ ➡️ para cambiar de carril · ⬆️ para saltar</div>
+          <Velocimetro />
+          <AvisoIntro />
+        </>
+      )}
       <div className="creditos">Modelos: Kenney y Quaternius (CC0) · Asfalto: Poly Haven (CC0) · Motos: Poly by Google y Paul Spooner (CC-BY)</div>
       {metros !== null && (
         <div className="fin">

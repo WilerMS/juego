@@ -34,10 +34,13 @@ export function Perseguidor() {
   const grupo = useRef<Group>(null);
   const bocadillo = useRef<HTMLDivElement>(null);
   const segundosCorriendo = useRef(0);
+  const seFue = useRef(false);
 
   useFrame((_, delta) => {
     const cuerpo = grupo.current;
-    if (!cuerpo || !cuerpo.visible) return;
+    if (!cuerpo || seFue.current) return;
+    cuerpo.visible = !partida.enMenu;
+    if (partida.enMenu) return;
     const dt = Math.min(delta, 0.05);
 
     if (partida.enIntro) {
@@ -52,11 +55,14 @@ export function Perseguidor() {
       const hablando = partida.enIntro || segundosCorriendo.current < intro.segundosConBocadillo;
       bocadillo.current.style.display = hablando ? "block" : "none";
     }
-    if (cuerpo.position.z - posicionJugador.z > intro.perseguidorDesapareceA) cuerpo.visible = false;
+    if (cuerpo.position.z - posicionJugador.z > intro.perseguidorDesapareceA) {
+      cuerpo.visible = false;
+      seFue.current = true;
+    }
   });
 
   return (
-    <group ref={grupo} position={[0, 0, intro.distanciaPerseguidor]}>
+    <group ref={grupo} position={[0, 0, intro.distanciaPerseguidor]} visible={false}>
       <group rotation-y={Math.PI}>
         <Personaje ruta={ruta(elegido.tipo)} animacion={elegido.datos.animacion} alto={elegido.datos.alto} />
       </group>

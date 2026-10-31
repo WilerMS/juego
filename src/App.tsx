@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import { escucharTeclado } from "./controles";
 import { Mundo } from "./escena/Mundo";
 import { posicionJugador } from "./escena/posicion";
-import { reiniciarPartida } from "./escena/partida";
+import { empezarPartida, reiniciarPartida } from "./escena/partida";
 import { Marcador } from "./ui/Marcador";
 import { ControlesTactiles } from "./ui/ControlesTactiles";
+import { MenuInicial } from "./ui/MenuInicial";
 
 const CLAVE_RECORD = "record-metros";
 
@@ -29,6 +30,12 @@ export function App() {
   const [partida, setPartida] = useState(0);
   const [metros, setMetros] = useState<number | null>(null);
   const [record, setRecord] = useState(leerRecord);
+  const [enMenu, setEnMenu] = useState(true);
+
+  const empezar = useCallback(() => {
+    empezarPartida();
+    setEnMenu(false);
+  }, []);
 
   useRegisterSW({ immediate: true });
   useEffect(() => escucharTeclado(), []);
@@ -51,7 +58,8 @@ export function App() {
   return (
     <>
       <Mundo key={partida} onChocar={chocar} />
-      <Marcador metros={metros} record={record} onOtraVez={otraVez} />
+      <Marcador metros={metros} record={record} enMenu={enMenu} onOtraVez={otraVez} />
+      {enMenu && <MenuInicial record={record} onEmpezar={empezar} />}
       <ControlesTactiles />
     </>
   );
