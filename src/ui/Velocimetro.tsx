@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { posicionJugador } from "../escena/posicion";
-import { nivelActual, partida } from "../escena/partida";
+import { CONFIG } from "../config";
+import { comentar, nivelActual, partida } from "../escena/partida";
 
 export function Velocimetro() {
   const metros = useRef<HTMLSpanElement>(null);
@@ -18,6 +19,7 @@ export function Velocimetro() {
         aviso.current.classList.remove("visible");
         void aviso.current.offsetWidth;
         aviso.current.classList.add("visible");
+        comentar(CONFIG.pasajeros.alIrMasRapido);
       }
       if (metros.current) metros.current.textContent = `${Math.floor(-posicionJugador.z)} m`;
       const velocidad = partida.enIntro ? 0 : partida.velocidad;

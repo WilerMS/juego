@@ -7,7 +7,6 @@ import { fasesIntro, partida } from "./partida";
 import { Personaje } from "./modelos";
 
 const c = CONFIG.pasajeros;
-const p = CONFIG.protagonista;
 const ruta = (nombre: string) => `/modelos/pasajeros/${nombre}.glb`;
 c.modelos.forEach((n) => useGLTF.preload(ruta(n)));
 
@@ -17,7 +16,7 @@ function alAzar<T>(lista: T[]): T {
 
 const enLaAcera = new Vector3(-2.1, 0.15, 1.6);
 const juntoALaMoto = new Vector3(-0.75, 0, -0.9);
-const asiento = new Vector3(0, p.alturaAsiento + 0.05, -p.haciaAtras - 0.5);
+const asiento = new Vector3(0, c.alturaAsiento, -c.haciaAtras);
 const posicion = new Vector3();
 
 function animacionPasajero() {
@@ -60,10 +59,17 @@ export function Pasajero() {
 
     if (!partida.enIntro && partida.jugando) segundosDeViaje.current += Math.min(delta, 0.05);
     if (bocadillo.current) {
-      const texto = subido ? `¡Llévame a ${elegido.destino}, rápido!` : elegido.llamada;
+      const comentando = !partida.enIntro && performance.now() < partida.comentarioHasta;
+      const texto = comentando
+        ? partida.comentario
+        : subido
+          ? `¡Llévame ${elegido.destino}, rápido!`
+          : elegido.llamada;
       if (bocadillo.current.textContent !== texto) bocadillo.current.textContent = texto;
       const hablando =
-        !partida.enMenu && partida.jugando && (partida.enIntro ? !fase.andando : segundosDeViaje.current < CONFIG.intro.segundosConBocadillo);
+        !partida.enMenu &&
+        partida.jugando &&
+        (partida.enIntro ? !fase.andando : comentando || segundosDeViaje.current < CONFIG.intro.segundosConBocadillo);
       bocadillo.current.style.display = hablando ? "block" : "none";
     }
   });

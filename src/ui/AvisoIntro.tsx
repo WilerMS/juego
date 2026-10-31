@@ -12,7 +12,7 @@ export function AvisoIntro() {
       if (caja.current) caja.current.style.display = partida.enIntro && partida.jugando ? "flex" : "none";
       const subido = fasesIntro().subido;
       if (titulo.current) titulo.current.textContent = subido ? "🛵 ¡Vámonos!" : "🙋 ¡Un cliente!";
-      if (texto.current) texto.current.textContent = subido ? `Destino: ${partida.destino}` : "Espera a que se suba…";
+      if (texto.current) texto.current.textContent = subido ? `¡Vamos ${partida.destino}!` : "Espera a que se suba…";
       pedido = requestAnimationFrame(mirar);
     };
     mirar();

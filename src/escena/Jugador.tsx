@@ -4,7 +4,7 @@ import { Vector3, type Group, type PerspectiveCamera } from "three";
 import { CONFIG } from "../config";
 import { entrada } from "../controles";
 import { posicionJugador } from "./posicion";
-import { fasesIntro, partida, progresoVelocidad } from "./partida";
+import { comentar, fasesIntro, partida, progresoVelocidad } from "./partida";
 import { Pasajero } from "./Pasajero";
 import { Modelo, Personaje, RUTA_MOTO_JUGADORA, RUTA_PROTAGONISTA } from "./modelos";
 
@@ -78,7 +78,10 @@ export function Jugador() {
     cuerpo.rotation.z = -(cuerpo.position.x - antesX) / dt * 0.02;
 
     const enElSuelo = cuerpo.position.y <= 0;
-    if (entrada.saltar && enElSuelo) velocidadY.current = CONFIG.jugador.salto;
+    if (entrada.saltar && enElSuelo) {
+      velocidadY.current = CONFIG.jugador.salto;
+      comentar(CONFIG.pasajeros.alSaltar);
+    }
     entrada.saltar = false;
     velocidadY.current -= CONFIG.mundo.gravedad * dt;
     cuerpo.position.y += velocidadY.current * dt;
@@ -91,7 +94,7 @@ export function Jugador() {
     posicionJugador.copy(cuerpo.position);
 
     destinoCamara.set(
-      cuerpo.position.x * 0.5,
+      cuerpo.position.x * CONFIG.camara.seguirCarril,
       cuerpo.position.y * 0.5 + CONFIG.camara.altura,
       cuerpo.position.z + CONFIG.camara.distancia,
     );
@@ -107,7 +110,7 @@ export function Jugador() {
       camara.fov = angulo;
       camara.updateProjectionMatrix();
     }
-    objetivoMirada.set(cuerpo.position.x * 0.5, 1, cuerpo.position.z - 6);
+    objetivoMirada.set(cuerpo.position.x * CONFIG.camara.seguirCarril, 1, cuerpo.position.z - 6);
     if (transicion < 1) miradaSuave.lerp(objetivoMirada, 1 - Math.exp(-6 * dt));
     else miradaSuave.copy(objetivoMirada);
     state.camera.lookAt(miradaSuave);

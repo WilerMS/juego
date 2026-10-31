@@ -11,7 +11,14 @@ export const partida = {
   tiempoIntro: 0,
   velocidad: j.velocidadInicial,
   destino: "",
+  comentario: "",
+  comentarioHasta: 0,
 };
+
+export function comentar(frases: string[]) {
+  partida.comentario = frases[Math.floor(Math.random() * frases.length)];
+  partida.comentarioHasta = performance.now() + CONFIG.pasajeros.segundosComentario * 1000;
+}
 
 export function empezarPartida() {
   partida.enMenu = false;
@@ -48,6 +55,7 @@ export function progresoVelocidad() {
 export function reiniciarPartida() {
   partida.enMenu = false;
   partida.jugando = true;
+  partida.comentarioHasta = 0;
   partida.enIntro = true;
   partida.tiempoIntro = 0;
   partida.velocidad = j.velocidadInicial;

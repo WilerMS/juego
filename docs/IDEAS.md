@@ -20,6 +20,7 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 - Calle con textura de asfalto de verdad y baches realistas (grietas, escombros y charcos)
 - Modelos 3D de verdad: coches y personas de Kenney (con animaciones de correr, andar, conducir y caerse) y moto de Poly Pizza
 - Menú inicial con botón "Empezar" y la cámara girando alrededor de la moto
+- El pasajero comenta en dominicano al saltar ("¡Oye, ten cuidao!", "¡Ay mi madre, nos vamo' a matá!") y al subir de nivel ("¡Bájale, bájale!")
 - Intro de recogida: un pasajero llama al motoconcho desde la acera, camina hasta la moto, se sube detrás y dice adónde quiere ir
 - Dificultad: la velocidad sube según los metros recorridos (+6 km/h cada 100 m, hasta 216 km/h) con aviso de nivel cada 500 m; los obstáculos salen más juntos cuanto más rápido vas, la cámara se abre y tiembla
 - Velocímetro (metros y km/h) y récord guardado en el móvil
