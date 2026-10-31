@@ -5,7 +5,7 @@ import { CONFIG } from "../config";
 import { posicionJugador } from "./posicion";
 import { partida } from "./partida";
 import { cuantoHaCrecido } from "./horizonte";
-import { Persona } from "./Decorado";
+import { Personaje, RUTA_MOTO, Vehiculo, rutaCoche, rutaPersona } from "./modelos";
 
 const o = CONFIG.obstaculos;
 const { anchoCarril } = CONFIG.carretera;
@@ -16,14 +16,24 @@ const TIPOS = ["camion", "coche", "moto", "bache", "peaton"] as const;
 type Tipo = (typeof TIPOS)[number];
 
 const TAMANOS: Record<Tipo, { largo: number; ancho: number; alto: number }> = {
-  camion: { largo: o.largoCamion, ancho: 1, alto: 3 },
-  coche: { largo: 4, ancho: 0.9, alto: 1.5 },
-  moto: { largo: 1.8, ancho: 0.35, alto: 1.8 },
+  camion: { largo: 4.4, ancho: 1, alto: 3 },
+  coche: { largo: 3.5, ancho: 0.95, alto: 1.5 },
+  moto: { largo: 2, ancho: 0.4, alto: 1.8 },
   bache: { largo: 1.1, ancho: 0.6, alto: 0.1 },
   peaton: { largo: 0.5, ancho: 0.3, alto: 1.8 },
 };
 
-type Obstaculo = { tipo: Tipo; x: number; z: number; direccion: number; color: string; colorRopa: string };
+type Obstaculo = {
+  tipo: Tipo;
+  x: number;
+  z: number;
+  direccion: number;
+  andando: boolean;
+  coche: string;
+  camion: string;
+  persona: string;
+  motorista: string;
+};
 
 function entre(min: number, max: number) {
   return min + Math.random() * (max - min);
@@ -56,75 +66,13 @@ function colocar(obstaculo: Obstaculo, z: number) {
   }
 }
 
-function Rueda({ x, z, radio }: { x: number; z: number; radio: number }) {
-  return (
-    <mesh position={[x, radio, z]} rotation-z={Math.PI / 2}>
-      <cylinderGeometry args={[radio, radio, 0.25, 14]} />
-      <meshStandardMaterial color="#222" />
-    </mesh>
-  );
-}
-
-function Camion({ color }: { color: string }) {
-  const largo = o.largoCamion;
+function Moto({ motorista }: { motorista: string }) {
   return (
     <group>
-      <mesh position={[0, 1.6, 0.6]} castShadow receiveShadow>
-        <boxGeometry args={[2, 2.4, largo - 1.6]} />
-        <meshStandardMaterial color={color} />
-      </mesh>
-      <mesh position={[0, 1.2, -largo / 2 + 0.7]} castShadow>
-        <boxGeometry args={[1.9, 1.6, 1.4]} />
-        <meshStandardMaterial color="#d9d9d9" />
-      </mesh>
-      {[-1, 1].flatMap((lado) =>
-        [-largo / 2 + 0.8, largo / 2 - 1].map((z) => <Rueda key={`${lado}${z}`} x={lado * 0.95} z={z} radio={0.45} />),
-      )}
-    </group>
-  );
-}
-
-function Coche({ color }: { color: string }) {
-  return (
-    <group>
-      <mesh position-y={0.65} castShadow>
-        <boxGeometry args={[1.8, 0.7, 4]} />
-        <meshStandardMaterial color={color} />
-      </mesh>
-      <mesh position={[0, 1.3, 0.2]} castShadow>
-        <boxGeometry args={[1.6, 0.65, 2.1]} />
-        <meshStandardMaterial color={color} />
-      </mesh>
-      <mesh position={[0, 1.3, 0.2]}>
-        <boxGeometry args={[1.65, 0.45, 1.9]} />
-        <meshStandardMaterial color="#9fd3ff" />
-      </mesh>
-      {[-1, 1].flatMap((lado) => [-1.3, 1.3].map((z) => <Rueda key={`${lado}${z}`} x={lado * 0.85} z={z} radio={0.35} />))}
-    </group>
-  );
-}
-
-function Moto({ color, colorRopa }: { color: string; colorRopa: string }) {
-  return (
-    <group>
-      <Rueda x={0} z={-0.7} radio={0.35} />
-      <Rueda x={0} z={0.7} radio={0.35} />
-      <mesh position-y={0.7} castShadow>
-        <boxGeometry args={[0.3, 0.4, 1.4]} />
-        <meshStandardMaterial color={color} />
-      </mesh>
-      <mesh position={[0, 1.05, -0.6]}>
-        <boxGeometry args={[0.8, 0.06, 0.06]} />
-        <meshStandardMaterial color="#333" />
-      </mesh>
-      <mesh position={[0, 1.35, 0.1]} castShadow>
-        <capsuleGeometry args={[0.22, 0.5, 6, 12]} />
-        <meshStandardMaterial color={colorRopa} />
-      </mesh>
-      <mesh position={[0, 1.95, 0.05]} castShadow>
-        <sphereGeometry args={[0.24, 14, 14]} />
-        <meshStandardMaterial color={color} />
-      </mesh>
+      <Vehiculo ruta={RUTA_MOTO} largo={CONFIG.modelos.largoMoto} giro={0} />
+      <group position={[0, 0.45, 0.15]} rotation-y={Math.PI}>
+        <Personaje ruta={rutaPersona(motorista)} animacion="drive" />
+      </group>
     </group>
   );
 }
@@ -155,8 +103,11 @@ export function Obstaculos({ onChocar }: { onChocar: () => void }) {
         x: 0,
         z: 0,
         direccion: 0,
-        color: alAzar(o.coloresVehiculos),
-        colorRopa: alAzar(CONFIG.decorado.coloresRopa),
+        andando: false,
+        coche: alAzar(CONFIG.modelos.coches),
+        camion: alAzar(CONFIG.modelos.camiones),
+        persona: alAzar(CONFIG.modelos.personas),
+        motorista: alAzar(CONFIG.modelos.personas),
       };
       colocar(obstaculo, z);
       z -= entre(o.separacionMinima, o.separacionMaxima);
@@ -164,7 +115,7 @@ export function Obstaculos({ onChocar }: { onChocar: () => void }) {
     });
   }, []);
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     if (!partida.jugando || !grupo.current) return;
     const dt = Math.min(delta, 0.05);
 
@@ -182,10 +133,9 @@ export function Obstaculos({ onChocar }: { onChocar: () => void }) {
       const peaton = hijo.children[4];
 
       if (obstaculo.tipo === "peaton") {
-        const cruzando = delante < o.peatonEmpiezaACruzarA && Math.abs(obstaculo.x) <= BORDE_CALLE;
-        if (cruzando) obstaculo.x += obstaculo.direccion * o.velocidadPeaton * dt;
+        obstaculo.andando = delante < o.peatonEmpiezaACruzarA && Math.abs(obstaculo.x) <= BORDE_CALLE;
+        if (obstaculo.andando) obstaculo.x += obstaculo.direccion * o.velocidadPeaton * dt;
         peaton.rotation.y = (obstaculo.direccion * Math.PI) / 2;
-        peaton.position.y = cruzando ? Math.abs(Math.sin(state.clock.elapsedTime * 8)) * 0.12 : 0;
       }
 
       hijo.position.set(obstaculo.x, 0, obstaculo.z);
@@ -208,12 +158,12 @@ export function Obstaculos({ onChocar }: { onChocar: () => void }) {
     <group ref={grupo}>
       {lista.map((obstaculo, i) => (
         <group key={i}>
-          <Camion color={obstaculo.color} />
-          <Coche color={obstaculo.color} />
-          <Moto color={obstaculo.color} colorRopa={obstaculo.colorRopa} />
+          <Vehiculo ruta={rutaCoche(obstaculo.camion)} escala={CONFIG.modelos.escalaCamiones} />
+          <Vehiculo ruta={rutaCoche(obstaculo.coche)} escala={CONFIG.modelos.escalaCoches} />
+          <Moto motorista={obstaculo.motorista} />
           <Bache />
           <group>
-            <Persona x={0} z={0} y={0} color={obstaculo.colorRopa} mirando={0} />
+            <Personaje ruta={rutaPersona(obstaculo.persona)} animacion={() => (obstaculo.andando ? "walk" : "idle")} />
           </group>
         </group>
       ))}

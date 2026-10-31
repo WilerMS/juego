@@ -5,6 +5,12 @@ import { CONFIG } from "../config";
 import { entrada } from "../controles";
 import { posicionJugador } from "./posicion";
 import { partida } from "./partida";
+import { Personaje, rutaPersona } from "./modelos";
+
+function animacionJugador() {
+  if (!partida.jugando) return "die";
+  return posicionJugador.y > 0.05 ? "jump" : "sprint";
+}
 
 const destinoCamara = new Vector3();
 
@@ -48,18 +54,7 @@ export function Jugador() {
 
   return (
     <group ref={ref} rotation-y={Math.PI}>
-      <mesh position-y={0.9} castShadow>
-        <capsuleGeometry args={[0.45, 0.8, 8, 16]} />
-        <meshStandardMaterial color={CONFIG.jugador.color} />
-      </mesh>
-      <mesh position={[0.18, 1.3, 0.4]}>
-        <sphereGeometry args={[0.1, 16, 16]} />
-        <meshStandardMaterial color="#222" />
-      </mesh>
-      <mesh position={[-0.18, 1.3, 0.4]}>
-        <sphereGeometry args={[0.1, 16, 16]} />
-        <meshStandardMaterial color="#222" />
-      </mesh>
+      <Personaje ruta={rutaPersona(CONFIG.modelos.personaje)} animacion={animacionJugador} />
     </group>
   );
 }

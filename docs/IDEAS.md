@@ -13,6 +13,7 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 - Montañas verdes y playa con mar turquesa al final de la calle (antes eran montañas nevadas)
 - Casas de colores al estilo de República Dominicana (balcones, persianas, techos de zinc) y palmeras
 - Banderas dominicanas en algunas casas (de vez en cuando)
+- Modelos 3D de verdad: coches y personas de Kenney (con animaciones de correr, andar, conducir y caerse) y moto de Poly Pizza
 - Coches, motoconchos y personas que cruzan la calle como obstáculos
 - Camiones (esquivar) y baches (saltar) en la carretera, con pantalla de "¡Chocaste!" y metros recorridos
 
@@ -26,7 +27,7 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 - Que la velocidad suba poco a poco
 - Agacharse / deslizarse con swipe abajo
 - ¿Cómo se llama el juego?
-- ¿Quién es el personaje protagonista?
+- ¿Quién es el personaje protagonista? (ahora es `character-female-b`; se cambia en `config.ts`)
 
 ## Descartadas 🗑️
 

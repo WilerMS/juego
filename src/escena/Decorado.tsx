@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { CONFIG } from "../config";
+import { Personaje, rutaPersona } from "./modelos";
 
 const { anchoCarril, largoTrozo } = CONFIG.carretera;
 const d = CONFIG.decorado;
@@ -175,23 +176,12 @@ export function Palmera({ x, z, lado }: { x: number; z: number; lado: number }) 
   );
 }
 
-type DatosPersona = { x: number; z: number; color: string; mirando: number; y?: number };
+type DatosPersona = { x: number; z: number; ruta: string; mirando: number };
 
-export function Persona({ x, z, color, mirando, y = 0.15 }: DatosPersona) {
+function Persona({ x, z, ruta, mirando }: DatosPersona) {
   return (
-    <group position={[x, y, z]} rotation-y={mirando}>
-      <mesh position-y={0.75} castShadow>
-        <capsuleGeometry args={[0.25, 0.7, 6, 12]} />
-        <meshStandardMaterial color={color} />
-      </mesh>
-      <mesh position-y={1.6} castShadow>
-        <sphereGeometry args={[0.25, 16, 16]} />
-        <meshStandardMaterial color="#c68642" />
-      </mesh>
-      <mesh position={[0.4, 0.6, 0]} castShadow>
-        <boxGeometry args={[0.2, 0.45, 0.3]} />
-        <meshStandardMaterial color="#6d4c41" />
-      </mesh>
+    <group position={[x, 0.15, z]} rotation-y={mirando}>
+      <Personaje ruta={ruta} animacion="idle" />
     </group>
   );
 }
@@ -225,7 +215,7 @@ export function Decorado() {
       return {
         x: lado * (centroAcera + entre(-0.3, 0.9)),
         z: entre(-largoTrozo / 2, largoTrozo / 2),
-        color: alAzar(d.coloresRopa),
+        ruta: rutaPersona(alAzar(CONFIG.modelos.personas)),
         mirando: entre(0, Math.PI * 2),
       };
     });

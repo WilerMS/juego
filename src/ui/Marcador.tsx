@@ -5,6 +5,7 @@ export function Marcador({ metros, onOtraVez }: Props) {
     <>
       <div className="ayuda ordenador">← → para cambiar de carril · Espacio para saltar</div>
       <div className="ayuda movil">Desliza ⬅️ ➡️ para cambiar de carril · ⬆️ para saltar</div>
+      <div className="creditos">Modelos: Kenney (CC0) · Moto: Poly by Google (CC-BY)</div>
       {metros !== null && (
         <div className="fin">
           <h1>💥 ¡Chocaste!</h1>

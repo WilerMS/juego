@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import type { DirectionalLight } from "three";
 import { CONFIG } from "../config";
@@ -49,11 +49,13 @@ export function Mundo({ onChocar }: { onChocar: () => void }) {
       <fog attach="fog" args={[CONFIG.mundo.colorCielo, 100, 550]} />
       <ambientLight intensity={0.6} />
       <Sol />
-      <Montanas />
-      <Playa />
-      <Carretera />
-      <Obstaculos onChocar={onChocar} />
-      <Jugador />
+      <Suspense fallback={null}>
+        <Montanas />
+        <Playa />
+        <Carretera />
+        <Obstaculos onChocar={onChocar} />
+        <Jugador />
+      </Suspense>
     </Canvas>
   );
 }
