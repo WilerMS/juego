@@ -4,6 +4,7 @@ import type { DirectionalLight } from "three";
 import { CONFIG } from "../config";
 import { Jugador } from "./Jugador";
 import { Carretera } from "./Carretera";
+import { Obstaculos } from "./Obstaculos";
 import { posicionJugador } from "./posicion";
 
 function Sol() {
@@ -39,7 +40,7 @@ function Sol() {
   );
 }
 
-export function Mundo() {
+export function Mundo({ onChocar }: { onChocar: () => void }) {
   const lejos = CONFIG.carretera.largoTrozo * (CONFIG.carretera.trozosVisibles - 2);
   return (
     <Canvas shadows camera={{ fov: 60, position: [0, CONFIG.camara.altura, CONFIG.camara.distancia] }}>
@@ -48,6 +49,7 @@ export function Mundo() {
       <ambientLight intensity={0.6} />
       <Sol />
       <Carretera />
+      <Obstaculos onChocar={onChocar} />
       <Jugador />
     </Canvas>
   );

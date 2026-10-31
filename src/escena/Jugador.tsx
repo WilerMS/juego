@@ -4,6 +4,7 @@ import { Vector3, type Group } from "three";
 import { CONFIG } from "../config";
 import { entrada } from "../controles";
 import { posicionJugador } from "./posicion";
+import { partida } from "./partida";
 
 const destinoCamara = new Vector3();
 
@@ -13,7 +14,7 @@ export function Jugador() {
 
   useFrame((state, delta) => {
     const cuerpo = ref.current;
-    if (!cuerpo) return;
+    if (!cuerpo || !partida.jugando) return;
     const dt = Math.min(delta, 0.05);
 
     cuerpo.position.z -= CONFIG.jugador.velocidadCarrera * dt;

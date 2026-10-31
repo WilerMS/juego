@@ -9,12 +9,14 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 - El juego es una carrera sin fin por una carretera de 3 carriles (estilo "endless runner")
 - Cambiar de carril con swipe (móvil) o flechas (ordenador), y saltar con swipe arriba o espacio
 - Decorado: edificios de colores y gente en las aceras
+- Cielo azul
+- Camiones (esquivar) y baches (saltar) en la carretera, con pantalla de "¡Chocaste!" y metros recorridos
 
 ## Pendientes 💡
 
-- Obstáculos en los carriles que hay que esquivar o saltar
 - Volver a poner estrellas (o monedas) en los carriles para recogerlas
-- Contador de metros recorridos
+- Contador de metros mientras corres y récord
+- Camiones que se mueven
 - Que la velocidad suba poco a poco
 - Agacharse / deslizarse con swipe abajo
 - ¿Cómo se llama el juego?

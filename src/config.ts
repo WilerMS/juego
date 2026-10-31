@@ -23,6 +23,16 @@ export const CONFIG = {
     personasPorTrozo: 2,
     coloresRopa: ["#e63946", "#457b9d", "#2a9d8f", "#ffb703", "#8338ec"],
   },
+  obstaculos: {
+    primeroA: 40,
+    separacionMinima: 14,
+    separacionMaxima: 24,
+    probabilidadCamion: 0.6,
+    coloresCamion: ["#e63946", "#1d3557", "#f4a261", "#2a9d8f", "#ffffff"],
+    largoCamion: 6,
+    tamanoBache: 0.9,
+    colorBache: "#1e1e22",
+  },
   mundo: {
     colorCielo: "#4aa8ff",
     gravedad: 22,
