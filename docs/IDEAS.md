@@ -12,6 +12,7 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 - Cielo azul
 - Montañas nevadas a lo lejos
 - Casas de colores al estilo de República Dominicana (balcones, persianas, techos de zinc) y palmeras
+- Banderas dominicanas en algunas casas (de vez en cuando)
 - Camiones (esquivar) y baches (saltar) en la carretera, con pantalla de "¡Chocaste!" y metros recorridos
 
 ## Pendientes 💡
@@ -20,6 +21,7 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 - Contador de metros mientras corres y récord
 - Camiones que se mueven
 - Más República Dominicana: un colmado con su letrero, motoconchos, guaguas, música de merengue/bachata
+- Que las banderas ondeen con el viento
 - Que la velocidad suba poco a poco
 - Agacharse / deslizarse con swipe abajo
 - ¿Cómo se llama el juego?

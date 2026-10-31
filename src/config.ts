@@ -23,6 +23,7 @@ export const CONFIG = {
     coloresPuertas: ["#1d6fa5", "#2a9d8f", "#ffffff", "#8b4513", "#e63946", "#ffd23f"],
     colorZinc: "#a9b4bd",
     palmerasPorTrozo: 1,
+    probabilidadBandera: 0.2,
     personasPorTrozo: 2,
     coloresRopa: ["#e63946", "#457b9d", "#2a9d8f", "#ffb703", "#8338ec"],
   },

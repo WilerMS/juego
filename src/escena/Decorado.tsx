@@ -26,6 +26,7 @@ type DatosCasa = {
   color: string;
   colorPuerta: string;
   techoDeZinc: boolean;
+  conBandera: boolean;
 };
 
 function Ventana({ x, y, z, color }: { x: number; y: number; z: number; color: string }) {
@@ -65,7 +66,45 @@ function Balcon({ y, z, ancho }: { y: number; z: number; ancho: number }) {
   );
 }
 
-function Casa({ x, z, giro, frente, fondo, pisos, color, colorPuerta, techoDeZinc }: DatosCasa) {
+function Bandera({ x, y, z }: { x: number; y: number; z: number }) {
+  const largo = 1.6;
+  const alto = 1;
+  const cruz = 0.16;
+  const ancho = (largo - cruz) / 2;
+  const altoCuadro = (alto - cruz) / 2;
+  const cuadros = [
+    { z: ancho / 2, y: -altoCuadro / 2, color: "#002d62" },
+    { z: ancho + cruz + ancho / 2, y: -altoCuadro / 2, color: "#ce1126" },
+    { z: ancho / 2, y: -(altoCuadro + cruz + altoCuadro / 2), color: "#ce1126" },
+    { z: ancho + cruz + ancho / 2, y: -(altoCuadro + cruz + altoCuadro / 2), color: "#002d62" },
+  ];
+  return (
+    <group position={[x, y, z]}>
+      <mesh position-z={1} rotation-x={Math.PI / 2}>
+        <cylinderGeometry args={[0.04, 0.04, 2, 6]} />
+        <meshStandardMaterial color="#8a8a8a" />
+      </mesh>
+      <group position-z={0.3}>
+        <mesh position={[0, -alto / 2, largo / 2]}>
+          <boxGeometry args={[0.02, alto, largo]} />
+          <meshStandardMaterial color="#ffffff" />
+        </mesh>
+        {cuadros.map((c, i) => (
+          <mesh key={i} position={[0, c.y, c.z]}>
+            <boxGeometry args={[0.04, altoCuadro, ancho]} />
+            <meshStandardMaterial color={c.color} />
+          </mesh>
+        ))}
+        <mesh position={[0, -alto / 2, largo / 2]}>
+          <boxGeometry args={[0.05, 0.14, 0.14]} />
+          <meshStandardMaterial color="#2e7d32" />
+        </mesh>
+      </group>
+    </group>
+  );
+}
+
+function Casa({ x, z, giro, frente, fondo, pisos, color, colorPuerta, techoDeZinc, conBandera }: DatosCasa) {
   const alto = pisos * d.alturaPiso;
   const fachada = fondo / 2;
   return (
@@ -103,6 +142,7 @@ function Casa({ x, z, giro, frente, fondo, pisos, color, colorPuerta, techoDeZin
           </group>
         );
       })}
+      {conBandera && <Bandera x={frente / 2 - 0.6} y={alto - 0.3} z={fachada} />}
     </group>
   );
 }
@@ -170,6 +210,7 @@ export function Decorado() {
           color: alAzar(d.coloresCasas),
           colorPuerta: alAzar(d.coloresPuertas),
           techoDeZinc: Math.random() < 0.35,
+          conBandera: Math.random() < d.probabilidadBandera,
         };
       }),
     );
