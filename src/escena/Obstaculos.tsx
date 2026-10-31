@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import type { Group } from "three";
 import { CONFIG } from "../config";
 import { posicionJugador } from "./posicion";
-import { partida } from "./partida";
+import { partida, progresoVelocidad } from "./partida";
 import { cuantoHaCrecido } from "./horizonte";
 import { Bache } from "./Bache";
 import { Modelo, Personaje, RUTA_MOTOCONCHO, rutaCoche, rutaPersona } from "./modelos";
@@ -39,6 +39,11 @@ type Obstaculo = {
 
 function entre(min: number, max: number) {
   return min + Math.random() * (max - min);
+}
+
+function separacion() {
+  const factor = 1 - (1 - o.separacionAMaximaVelocidad) * progresoVelocidad();
+  return entre(o.separacionMinima, o.separacionMaxima) * factor;
 }
 
 function alAzar<T>(lista: T[]): T {
@@ -103,7 +108,7 @@ export function Obstaculos({ onChocar }: { onChocar: () => void }) {
         motorista: alAzar(CONFIG.modelos.personas),
       };
       colocar(obstaculo, z);
-      z -= entre(o.separacionMinima, o.separacionMaxima);
+      z -= separacion();
       return obstaculo;
     });
   }, []);
@@ -117,7 +122,7 @@ export function Obstaculos({ onChocar }: { onChocar: () => void }) {
 
     lista.forEach((obstaculo, i) => {
       if (obstaculo.z > posicionJugador.z + 10) {
-        colocar(obstaculo, masLejos - entre(o.separacionMinima, o.separacionMaxima));
+        colocar(obstaculo, masLejos - separacion());
         masLejos = obstaculo.z;
       }
 
@@ -127,7 +132,8 @@ export function Obstaculos({ onChocar }: { onChocar: () => void }) {
       const peaton = hijo.children[4];
 
       if (obstaculo.tipo === "peaton") {
-        obstaculo.andando = delante < o.peatonEmpiezaACruzarA && Math.abs(obstaculo.x) <= BORDE_CALLE;
+        const empiezaACruzar = partida.velocidad * o.segundosAntesDeCruzar;
+        obstaculo.andando = delante < empiezaACruzar && Math.abs(obstaculo.x) <= BORDE_CALLE;
         if (obstaculo.andando) obstaculo.x += obstaculo.direccion * o.velocidadPeaton * dt;
         peaton.rotation.y = (obstaculo.direccion * Math.PI) / 2;
       }

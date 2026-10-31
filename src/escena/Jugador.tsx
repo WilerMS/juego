@@ -1,14 +1,17 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Vector3, type Group } from "three";
+import { Vector3, type Group, type PerspectiveCamera } from "three";
 import { CONFIG } from "../config";
 import { entrada } from "../controles";
 import { posicionJugador } from "./posicion";
-import { partida } from "./partida";
-import { Modelo, Personaje, RUTA_MOTO_JUGADORA, rutaPersona } from "./modelos";
+import { partida, progresoVelocidad } from "./partida";
+import { Modelo, Personaje, RUTA_MOTO_JUGADORA, RUTA_PROTAGONISTA } from "./modelos";
+
+const p = CONFIG.protagonista;
+const j = CONFIG.jugador;
 
 function animacionJugador() {
-  return partida.jugando ? "drive" : "die";
+  return partida.jugando ? p.animacionConducir : p.animacionChoque;
 }
 
 const destinoCamara = new Vector3();
@@ -27,7 +30,9 @@ export function Jugador() {
       return;
     }
 
-    cuerpo.position.z -= CONFIG.jugador.velocidadCarrera * dt;
+    partida.velocidad = Math.min(j.velocidadMaxima, partida.velocidad + j.aceleracion * dt);
+    const progreso = progresoVelocidad();
+    cuerpo.position.z -= partida.velocidad * dt;
 
     const destinoX = entrada.carril * CONFIG.carretera.anchoCarril;
     const antesX = cuerpo.position.x;
@@ -54,14 +59,23 @@ export function Jugador() {
     );
     state.camera.position.lerp(destinoCamara, 1 - Math.exp(-8 * dt));
     state.camera.position.z = destinoCamara.z;
+    const temblor = j.temblorAMaximaVelocidad * progreso;
+    state.camera.position.x += (Math.random() - 0.5) * temblor;
+    state.camera.position.y += (Math.random() - 0.5) * temblor;
+    const camara = state.camera as PerspectiveCamera;
+    const angulo = CONFIG.camara.anguloNormal + (CONFIG.camara.anguloAMaximaVelocidad - CONFIG.camara.anguloNormal) * progreso;
+    if (Math.abs(camara.fov - angulo) > 0.05) {
+      camara.fov = angulo;
+      camara.updateProjectionMatrix();
+    }
     state.camera.lookAt(cuerpo.position.x * 0.5, 1, cuerpo.position.z - 6);
   });
 
   return (
     <group ref={ref} rotation-y={Math.PI}>
       <Modelo ruta={RUTA_MOTO_JUGADORA} largo={CONFIG.modelos.largoMoto} />
-      <group position={[0, 0.45, -0.15]}>
-        <Personaje ruta={rutaPersona(CONFIG.modelos.personaje)} animacion={animacionJugador} />
+      <group position={[0, p.alturaAsiento, -p.haciaAtras]}>
+        <Personaje ruta={RUTA_PROTAGONISTA} animacion={animacionJugador} escala={p.escala} />
       </group>
     </group>
   );

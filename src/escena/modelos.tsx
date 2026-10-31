@@ -14,12 +14,14 @@ export const RUTA_MOTO_JUGADORA = "/modelos/moto.glb";
 export const RUTA_MOTOCONCHO = "/modelos/motoconcho.glb";
 
 [...m.coches, ...m.camiones].forEach((n) => useGLTF.preload(rutaCoche(n)));
-[m.personaje, ...m.personas].forEach((n) => useGLTF.preload(rutaPersona(n)));
+m.personas.forEach((n) => useGLTF.preload(rutaPersona(n)));
+export const RUTA_PROTAGONISTA = `/modelos/${CONFIG.protagonista.modelo}.glb`;
+useGLTF.preload(RUTA_PROTAGONISTA);
 m.palmeras.forEach((n) => useGLTF.preload(rutaPalmera(n)));
 useGLTF.preload(RUTA_MOTO_JUGADORA);
 useGLTF.preload(RUTA_MOTOCONCHO);
 
-const ANIMACIONES_UNA_VEZ = new Set(["jump", "die"]);
+const seRepite = (nombre: string) => !/jump|die|death/i.test(nombre);
 
 function conSombras(objeto: Object3D) {
   objeto.traverse((hijo) => {
@@ -99,7 +101,7 @@ export function Personaje({ ruta, animacion, escala = m.escalaPersonas }: PropsP
     const nombre = typeof animacion === "function" ? animacion() : animacion;
     const accion = actions[nombre];
     if (!accion || accion === actual.current) return;
-    if (ANIMACIONES_UNA_VEZ.has(nombre)) {
+    if (!seRepite(nombre)) {
       accion.setLoop(LoopOnce, 1);
       accion.clampWhenFinished = true;
     }

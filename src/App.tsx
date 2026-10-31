@@ -7,14 +7,40 @@ import { reiniciarPartida } from "./escena/partida";
 import { Marcador } from "./ui/Marcador";
 import { ControlesTactiles } from "./ui/ControlesTactiles";
 
+const CLAVE_RECORD = "record-metros";
+
+function leerRecord() {
+  try {
+    return Number(localStorage.getItem(CLAVE_RECORD)) || 0;
+  } catch {
+    return 0;
+  }
+}
+
+function guardarRecord(metros: number) {
+  try {
+    localStorage.setItem(CLAVE_RECORD, String(metros));
+  } catch {
+    return;
+  }
+}
+
 export function App() {
   const [partida, setPartida] = useState(0);
   const [metros, setMetros] = useState<number | null>(null);
+  const [record, setRecord] = useState(leerRecord);
 
   useRegisterSW({ immediate: true });
   useEffect(() => escucharTeclado(), []);
 
-  const chocar = () => setMetros(Math.floor(-posicionJugador.z));
+  const chocar = () => {
+    const recorridos = Math.floor(-posicionJugador.z);
+    setMetros(recorridos);
+    if (recorridos > record) {
+      setRecord(recorridos);
+      guardarRecord(recorridos);
+    }
+  };
 
   const otraVez = () => {
     reiniciarPartida();
@@ -25,7 +51,7 @@ export function App() {
   return (
     <>
       <Mundo key={partida} onChocar={chocar} />
-      <Marcador metros={metros} onOtraVez={otraVez} />
+      <Marcador metros={metros} record={record} onOtraVez={otraVez} />
       <ControlesTactiles />
     </>
   );

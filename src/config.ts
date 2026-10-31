@@ -1,10 +1,20 @@
 export const CONFIG = {
   jugador: {
-    color: "#ff6fb5",
-    velocidadCarrera: 12,
-    rapidezCambioCarril: 12,
+    velocidadInicial: 14,
+    velocidadMaxima: 38,
+    aceleracion: 0.35,
+    rapidezCambioCarril: 10,
     salto: 8,
     inclinacionAlSaltar: 0.05,
+    temblorAMaximaVelocidad: 0.06,
+  },
+  protagonista: {
+    modelo: "protagonista",
+    escala: 0.37,
+    animacionConducir: "HumanArmature|Female_Sitting",
+    animacionChoque: "HumanArmature|Female_Death",
+    alturaAsiento: 0.62,
+    haciaAtras: 0.35,
   },
   carretera: {
     anchoCarril: 2.5,
@@ -56,7 +66,8 @@ export const CONFIG = {
     velocidadDeFrente: 9,
     carrilDeFrente: -1,
     velocidadPeaton: 1.8,
-    peatonEmpiezaACruzarA: 35,
+    segundosAntesDeCruzar: 2.6,
+    separacionAMaximaVelocidad: 0.6,
   },
   montanas: {
     cantidad: 12,
@@ -73,7 +84,6 @@ export const CONFIG = {
     palmeras: 12,
   },
   modelos: {
-    personaje: "character-female-b",
     escalaPersonas: 2.2,
     escalaCoches: 1.3,
     escalaCamiones: 1.4,
@@ -101,6 +111,8 @@ export const CONFIG = {
     distanciaMinima: 40,
   },
   camara: {
+    anguloNormal: 60,
+    anguloAMaximaVelocidad: 75,
     altura: 4,
     distancia: 7,
   },
