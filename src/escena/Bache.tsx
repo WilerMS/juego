@@ -57,13 +57,14 @@ function crearBache() {
       z: -Math.sin(angulo) * distancia * 0.85,
       tamano: entre(0.06, 0.16),
       giro: Math.random() * Math.PI,
+      deTierra: Math.random() < 0.5,
     };
   });
 
   const haciaDelante = new Vector2(entre(-0.05, 0.05), -o.tamanoBache * 0.22);
 
   return {
-    borde: contorno(radios, 1.18),
+    borde: contorno(radios, 1.3),
     hueco: contorno(radios, 1),
     fondo: contorno(radios, 0.8, haciaDelante),
     charco: Math.random() < o.probabilidadCharco ? contorno(radios, 0.5, haciaDelante) : null,
@@ -77,35 +78,39 @@ export function Bache() {
   const asfalto = useAsfalto(1, 1);
 
   return (
-    <group>
+    <group position-y={0.012}>
       <mesh rotation-x={ACOSTADO} position-y={0.013} receiveShadow>
         <shapeGeometry args={[bache.borde]} />
-        <meshStandardMaterial color="#c9c3ba" map={asfalto.map} normalMap={asfalto.normalMap} roughness={1} />
+        <meshStandardMaterial color={o.colorTierraBache} normalMap={asfalto.normalMap} roughness={1} />
       </mesh>
       <mesh rotation-x={ACOSTADO} position-y={0.016}>
         <shapeGeometry args={[bache.hueco]} />
-        <meshStandardMaterial color={o.colorParedBache} map={asfalto.map} normalMap={asfalto.normalMap} roughness={1} />
+        <meshStandardMaterial color={o.colorParedBache} normalMap={asfalto.normalMap} roughness={1} />
       </mesh>
       <mesh rotation-x={ACOSTADO} position-y={0.019}>
         <shapeGeometry args={[bache.fondo]} />
-        <meshStandardMaterial color={o.colorFondoBache} map={asfalto.map} normalMap={asfalto.normalMap} roughness={1} />
+        <meshStandardMaterial color={o.colorFondoBache} normalMap={asfalto.normalMap} roughness={1} />
       </mesh>
       {bache.charco && (
         <mesh rotation-x={ACOSTADO} position-y={0.022}>
           <shapeGeometry args={[bache.charco]} />
-          <meshStandardMaterial color="#5d7480" roughness={0.05} metalness={0.4} />
+          <meshStandardMaterial color={o.colorCharco} roughness={0.08} metalness={0.25} />
         </mesh>
       )}
       {bache.grietas.map((g, i) => (
         <mesh key={i} position={[g.x, 0.014, -g.y]} rotation={[ACOSTADO, 0, g.giro]}>
           <planeGeometry args={[g.largo + 0.03, 0.035]} />
-          <meshStandardMaterial color="#141414" />
+          <meshStandardMaterial color="#2a1c10" />
         </mesh>
       ))}
       {bache.escombros.map((e, i) => (
         <mesh key={i} position={[e.x, e.tamano * 0.4, e.z]} rotation-y={e.giro} scale={[1, 0.5, 1]} castShadow>
           <dodecahedronGeometry args={[e.tamano, 0]} />
-          <meshStandardMaterial color="#b8b2aa" map={asfalto.map} roughness={1} />
+          <meshStandardMaterial
+            color={e.deTierra ? o.colorTierraBache : "#b8b2aa"}
+            map={e.deTierra ? null : asfalto.map}
+            roughness={1}
+          />
         </mesh>
       ))}
     </group>

@@ -20,7 +20,7 @@ const TAMANOS: Record<Tipo, { largo: number; ancho: number; alto: number }> = {
   camion: { largo: 4.4, ancho: 1, alto: 3 },
   coche: { largo: 3.5, ancho: 0.95, alto: 1.5 },
   moto: { largo: 2, ancho: 0.4, alto: 1.8 },
-  bache: { largo: 1.3, ancho: 0.8, alto: 0.1 },
+  bache: { largo: o.tamanoBache * 1.4, ancho: o.tamanoBache * 0.9, alto: 0.1 },
   peaton: { largo: 0.5, ancho: 0.3, alto: 1.8 },
 };
 
