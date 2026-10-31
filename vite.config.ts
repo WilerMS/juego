@@ -12,9 +12,9 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "apple-touch-icon.png"],
       manifest: {
-        name: "Nuestro juego",
-        short_name: "Nuestro juego",
-        description: "Carrera en moto por una calle de República Dominicana, esquivando coches, motoconchos y baches.",
+        name: "Motoconcho",
+        short_name: "Motoconcho",
+        description: "Sé motoconcho: recoge pasajeros y llévalos rápido por las calles de República Dominicana, esquivando coches, guaguas y baches.",
         lang: "es",
         theme_color: COLOR_CIELO,
         background_color: COLOR_CIELO,

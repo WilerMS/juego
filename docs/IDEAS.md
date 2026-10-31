@@ -1,4 +1,6 @@
-# Cuaderno de ideas
+# Cuaderno de ideas — Motoconcho 🛵
+
+**De qué va:** eres motoconcho. Recoges a gente en tu moto y tienes que llevarla rápido a su destino por calles que son una locura.
 
 Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 
@@ -41,7 +43,6 @@ Aquí apuntamos todo lo que se nos ocurre para el juego, aunque sea una locura.
 - Agacharse / deslizarse con swipe abajo
 - Turbo: recoger algo en la carretera para ir más rápido unos segundos
 - Frenar con swipe abajo
-- ¿Cómo se llama el juego? (ahora la app se llama "Nuestro juego"; se cambia en `vite.config.ts` e `index.html`)
 - ¿Cómo se llama la protagonista? (es "Woman Casual" de Quaternius en su moto roja)
 
 ## Descartadas 🗑️

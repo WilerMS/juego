@@ -11,8 +11,8 @@ export const CONFIG = {
     temblorAMaximaVelocidad: 0.06,
   },
   menu: {
-    titulo: "Nuestro juego",
-    subtitulo: "¡Huye en moto por las calles de República Dominicana!",
+    titulo: "Motoconcho",
+    subtitulo: "¡Recoge pasajeros y llévalos rápido por las calles de República Dominicana!",
     velocidadGiroCamara: 0.25,
   },
   intro: {
