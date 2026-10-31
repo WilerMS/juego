@@ -24,6 +24,7 @@ export const CONFIG = {
     coloresRopa: ["#e63946", "#457b9d", "#2a9d8f", "#ffb703", "#8338ec"],
   },
   mundo: {
+    colorCielo: "#4aa8ff",
     gravedad: 22,
   },
   swipe: {

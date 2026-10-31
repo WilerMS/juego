@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Sky } from "@react-three/drei";
 import type { DirectionalLight } from "three";
 import { CONFIG } from "../config";
 import { Jugador } from "./Jugador";
@@ -44,8 +43,8 @@ export function Mundo() {
   const lejos = CONFIG.carretera.largoTrozo * (CONFIG.carretera.trozosVisibles - 2);
   return (
     <Canvas shadows camera={{ fov: 60, position: [0, CONFIG.camara.altura, CONFIG.camara.distancia] }}>
-      <Sky sunPosition={[50, 30, 20]} />
-      <fog attach="fog" args={["#cfe9ff", lejos * 0.5, lejos]} />
+      <color attach="background" args={[CONFIG.mundo.colorCielo]} />
+      <fog attach="fog" args={[CONFIG.mundo.colorCielo, lejos * 0.5, lejos]} />
       <ambientLight intensity={0.6} />
       <Sol />
       <Carretera />
